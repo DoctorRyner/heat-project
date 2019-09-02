@@ -9,11 +9,14 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- record-hasfield
+- servant
 
 library:
   source-dirs: src
   ghc-options:
   - -Wall
+  - -F -pgmF=record-dot-preprocessor
   dependencies:
   - shared
 

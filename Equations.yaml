@@ -1,0 +1,8 @@
+build-gui: |
+  stack build record-dot-preprocessor --copy-compiler-tool
+  stack build --stack-yaml "stack-ghcjs.yaml"
+
+  COMPILER_TOOLS=$(stack path --compiler-tools-bin)
+
+  export PATH=$PATH:$COMPILER_TOOLS
+  cabal new-build all --project=cabal-ghcjs.project

@@ -2,5 +2,6 @@
 *.cabal
 *.iml
 *~
+dist
 dist-newstyle
 .idea
