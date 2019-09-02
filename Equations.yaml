@@ -1,3 +1,7 @@
+test-gui: |
+  stack build record-dot-preprocessor --copy-compiler-tool
+  ghcid -c "stack ghci gui" -r="Language.Javascript.JSaddle.Warp.debug 8000 $ Miso.startApp app"
+
 build-gui: |
   stack build record-dot-preprocessor --copy-compiler-tool
   stack build --stack-yaml "stack-ghcjs.yaml"

@@ -1,0 +1,6 @@
+:set -fno-break-on-exception
+:set prompt "\ESC[32mλ\ESC[m \ESC[35m=\ESC[m "
+:color
+:def ass \_ -> return $ unlines [ ":r", "main" ]
+:set +t
+:!clear
