@@ -1,0 +1,16 @@
+name:                shared
+version:             0.1
+github:              "zawarudo-lab/heat-project"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/githubuser/shared#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wall

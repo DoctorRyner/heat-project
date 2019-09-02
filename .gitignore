@@ -1,0 +1,6 @@
+.stack-work/
+*.cabal
+*.iml
+*~
+dist-newstyle
+.idea
