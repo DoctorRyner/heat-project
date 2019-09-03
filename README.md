@@ -1,7 +1,7 @@
 # Frontend
 
-## Build with GHC
-`stack build gui`
+## Test and develop with GHC
+`sae test-gui`
 
 ## Build with GHCJS
 `sae build-gui`
