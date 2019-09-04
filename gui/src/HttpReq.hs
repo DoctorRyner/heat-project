@@ -40,8 +40,8 @@ data Url = Url
 urlToMs :: Url -> MisoString
 urlToMs url = url.protocol <> "://" <> url.host <> ":" <> ms (show url.port) <> "/" <> url.path
 
-getFile :: Url -> JSM (Types.Response MisoString)
-getFile url =
+getFileLocal :: Url -> JSM (Types.Response MisoString)
+getFileLocal url =
 #ifdef ghcjs_HOST_OS
     do
     let req = Request

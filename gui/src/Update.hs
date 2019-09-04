@@ -11,7 +11,7 @@ update :: Model -> Event -> Effect Event Model
 update model = \case
     NoEvent -> pure model
     GetNormalizeCss -> model `withJS` do
-        normalizeCss <- HttpReq.getFile $ Url "http" "localhost" 8000 "static/css/normalize.css"
+        normalizeCss <- HttpReq.getFileLocal $ Url "http" "localhost" 8000 "static/css/normalize.css"
         pure $ PutNormalizeCss normalizeCss
     PutNormalizeCss resp -> case resp of
         Ok file -> pure $ model { files = model.files { normalizeCss = Just file } }
