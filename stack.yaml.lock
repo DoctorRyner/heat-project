@@ -32,6 +32,13 @@ packages:
       sha256: 49d82904ca995ef048dbde99eddb827c5c40eaf3618815040af15f5ffba58063
   original:
     hackage: jsaddle-dom-0.9.3.2
+- completed:
+    hackage: ghcjs-base-0.2.0.0@sha256:d755c0dc16c2b5fd45e7a1db75f68a1ddaf400b38166fac8194a8c3acc1deae3,6759
+    pantry-tree:
+      size: 6382
+      sha256: de9f53b305557b551b6ab08b0b6b75bb0909f4d65d26f40a5d71fd9c29cf905f
+  original:
+    hackage: ghcjs-base-0.2.0.0
 snapshots:
 - completed:
     size: 523884
