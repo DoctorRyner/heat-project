@@ -1,17 +1,16 @@
 module Utils where
 
 import           Control.Monad.IO.Class      (liftIO)
-import           Language.Javascript.JSaddle hiding ((<#))
+import           Language.Javascript.JSaddle hiding ((<#), JSM)
 import           Miso
 import           Miso.String
 import           Types
 
-newtype Console a = Console { log :: Show a => a -> JSM () }
+logJS :: MisoString -> JSM ()
+logJS str = consoleLog =<< val (unpack str)
 
-console :: a => Console
-console = Console
-    { log = consoleLog =<< val
-    }
+logJS' :: Show a => a -> JSM ()
+logJS' str = consoleLog =<< val (show str)
 
 withJS :: model -> JSM event -> Effect event model
 withJS = (<#)

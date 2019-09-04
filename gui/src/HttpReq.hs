@@ -51,5 +51,5 @@ send reqType url =
             Left  err -> pure $ Types.HttpError (ms err) (status respRaw)
         Left (SomeException err) -> pure $ Types.HttpError (ms $ show err) 404
 #else
-    pure $ Types.HttpError "" 228
+    pure $ Types.HttpError "GHC support is not implemented yet" 228
 #endif
