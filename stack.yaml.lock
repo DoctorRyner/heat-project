@@ -25,6 +25,13 @@ packages:
       sha256: 81ecae4728867eaa8aff5bfcd26f05942ff8c5c3e6568a1e042db444063ea5e7
   original:
     hackage: ref-tf-0.4.0.1
+- completed:
+    hackage: jsaddle-dom-0.9.3.2@sha256:54d4666c8983d227b2b560714c54a9486629201c49de178bbf563c6db3aa8160,75673
+    pantry-tree:
+      size: 48227
+      sha256: 49d82904ca995ef048dbde99eddb827c5c40eaf3618815040af15f5ffba58063
+  original:
+    hackage: jsaddle-dom-0.9.3.2
 snapshots:
 - completed:
     size: 523884

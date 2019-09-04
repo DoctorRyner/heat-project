@@ -17,6 +17,7 @@ library:
   ghc-options:
   - -Wall
   - -F -pgmF=record-dot-preprocessor
+  - -Werror=incomplete-patterns
   default-extensions:
   - LambdaCase
   - OverloadedStrings

@@ -7,7 +7,7 @@ import           View   (view)
 
 app :: Miso.App Model Event
 app = Miso.App
-    { initialAction = NoEvent
+    { initialAction = Init
     , model         = defaultModel
     , update        = flip update
     , view          = view

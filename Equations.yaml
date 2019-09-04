@@ -1,6 +1,19 @@
 test-gui: |
+  cd gui
   stack build record-dot-preprocessor --copy-compiler-tool
-  ghcid -c "stack ghci gui" -r="Language.Javascript.JSaddle.Warp.debug 8000 $ Miso.startApp app"
+  ghcid -c "stack ghci gui" -r="Language.Javascript.JSaddle.Warp.debug 8000 $ Miso.startApp app" --warnings
+
+build-gui-ghc: |
+  cd gui
+  stack build record-dot-preprocessor --copy-compiler-tool
+  stack run gui
+
+build-gui-test: |
+  sae build-gui
+  cd gui
+  cp -r static /Users/local/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+  cd /Users/local/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+  python -m SimpleHTTPServer
 
 build-gui: |
   stack build record-dot-preprocessor --copy-compiler-tool

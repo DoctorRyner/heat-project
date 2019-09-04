@@ -13,18 +13,30 @@ dependencies:
 - jsaddle
 - jsaddle-warp
 - miso
+- clay
+- aeson
+- lens
 
 library:
   source-dirs: src
   ghc-options:
   - -Wall
   - -Wno-name-shadowing
+  - -Werror=incomplete-patterns
   - -F -pgmF=record-dot-preprocessor
   default-extensions:
   - LambdaCase
   - OverloadedStrings
+  - DeriveGeneric
   dependencies:
   - shared
+  when:
+  - condition: impl(ghcjs)
+    then:
+      dependencies: ghcjs-base
+    else:
+      dependencies: wreq
+
 
 executables:
   gui:
