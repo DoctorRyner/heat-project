@@ -16,6 +16,7 @@ dependencies:
 - clay
 - aeson
 - lens
+- bytestring
 
 library:
   source-dirs: src
@@ -35,8 +36,8 @@ library:
     then:
       dependencies: ghcjs-base
     else:
-      dependencies: wreq
-
+      dependencies:
+      - wreq
 
 executables:
   gui:

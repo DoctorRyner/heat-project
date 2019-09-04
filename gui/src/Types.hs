@@ -1,8 +1,8 @@
 module Types where
 
+import           Data.Aeson
+import           GHC.Generics
 import           Miso.String
-import Data.Aeson
-import GHC.Generics
 
 data SomeGithubInfo = SomeGithubInfo
     { current_user_url :: MisoString
@@ -10,6 +10,17 @@ data SomeGithubInfo = SomeGithubInfo
     } deriving Generic
 
 instance FromJSON SomeGithubInfo
+instance ToJSON SomeGithubInfo
+
+data AmoAuthBody = AmoAuthBody
+    { em :: MisoString
+    , password :: MisoString
+    } deriving Generic
+instance ToJSON AmoAuthBody
+
+newtype TestResp = TestResp { token :: MisoString } deriving Generic
+instance FromJSON TestResp
+instance ToJSON TestResp
 
 data Response ok
     = Ok ok
@@ -20,6 +31,8 @@ data Event
     | Init
     | GetNormalizeCss
     | PutNormalizeCss (Response SomeGithubInfo)
+    | AmoAuthReq
+    | AmoAuthRes (Response TestResp)
 
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
