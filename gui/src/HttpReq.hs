@@ -126,11 +126,10 @@ send reqType =
 xhrGet :: MisoString -> JSM MisoString
 xhrGet _url = do
     xml <- newXMLHttpRequest
-    let method = "POST" :: MisoString
-        url    = "https://reqres.in/api/users" :: MisoString
+    let method = "GET" :: MisoString
+        url    = "https://kurbikus.digital/quiz/static/locales/ru.json" :: MisoString
 --    setRequestHeader xml ("Content-Type" :: MisoString) ("application/json" :: MisoString)
---    setResponseType xml XMLHttpRequestResponseTypeJson
     openSimple xml method url
-    setRequestHeader xml ("Content-Type" :: MisoString) ("application/json;charset=UTF-8" :: MisoString)
-    JSDOM.sendString xml ("{ \"name\": \"mo\", \"job\": \"Keker\" }" :: MisoString)
+--    setRequestHeader xml ("Content-Type" :: MisoString) ("application/json;charset=UTF-8" :: MisoString)
+    JSDOM.send xml
     valToStr =<< getResponse xml
