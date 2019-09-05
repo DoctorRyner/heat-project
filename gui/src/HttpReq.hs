@@ -8,9 +8,14 @@ import           Control.Monad.IO.Class        (liftIO)
 import           Data.Aeson
 import           Data.Maybe
 import qualified Data.ByteString.Lazy as BS
+import           Data.Functor (void)
 import           Miso hiding (send)
 import           Miso.String
 import           Types                         (Response (..))
+import JSDOM.Custom.XMLHttpRequest hiding (send)
+import qualified JSDOM.Custom.XMLHttpRequest as JSDOM
+import Language.Javascript.JSaddle as JSaddle hiding (JSM)
+import JSDOM.Generated.Enums
 
 #ifdef ghcjs_HOST_OS
 import           JavaScript.Web.XMLHttpRequest hiding (Method (..))
@@ -114,3 +119,18 @@ send reqType =
                         else pure $ Types.HttpError (ms body') 0
                 Left (SomeException err) -> pure $ Types.HttpError (ms $ show err) 404
 #endif
+
+--setMode :: ToJSString mode => XMLHttpRequest -> mode -> JSM ()
+--setMode self mode = void $ self ^. jsf "setMode"
+
+xhrGet :: MisoString -> JSM MisoString
+xhrGet _url = do
+    xml <- newXMLHttpRequest
+    let method = "POST" :: MisoString
+        url    = "https://reqres.in/api/users" :: MisoString
+--    setRequestHeader xml ("Content-Type" :: MisoString) ("application/json" :: MisoString)
+--    setResponseType xml XMLHttpRequestResponseTypeJson
+    openSimple xml method url
+    setRequestHeader xml ("Content-Type" :: MisoString) ("application/json;charset=UTF-8" :: MisoString)
+    JSDOM.sendString xml ("{ \"name\": \"mo\", \"job\": \"Keker\" }" :: MisoString)
+    valToStr =<< getResponse xml

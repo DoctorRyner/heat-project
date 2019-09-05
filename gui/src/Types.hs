@@ -13,6 +13,7 @@ data Event
     | Init
     | GetNormalizeCss
     | PutNormalizeCss (Response MisoString)
+    | JSTest
 
 newtype Files = Files
     { normalizeCss :: Maybe MisoString

@@ -16,4 +16,7 @@ update model = \case
     PutNormalizeCss resp -> case resp of
         Ok file -> pure $ model { files = model.files { normalizeCss = Just file } }
         _       -> pure model
-    Init -> batchEff model $ map pure [ GetNormalizeCss ]
+    JSTest -> model `withJS` do
+        x <- HttpReq.xhrGet ""
+        pure $ PutNormalizeCss $ Ok x
+    Init -> batchEff model $ map pure [ JSTest ]

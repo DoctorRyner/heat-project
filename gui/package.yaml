@@ -17,6 +17,7 @@ dependencies:
 - aeson
 - lens
 - bytestring
+- jsaddle-dom
 
 library:
   source-dirs: src
