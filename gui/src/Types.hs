@@ -1,7 +1,7 @@
 module Types where
 
-import           Data.Aeson
-import           GHC.Generics
+--import           Data.Aeson
+--import           GHC.Generics
 import           Miso.String
 import           Prelude hiding (id)
 
@@ -9,19 +9,11 @@ data Response ok
     = Ok ok
     | HttpError MisoString Int
 
-data TestReq = TestReq
-    { name
-    , job :: MisoString
-    } deriving Generic
-
-instance FromJSON TestReq
-instance ToJSON TestReq
-
 data Event
     = NoEvent
     | Init
-    | GetNormalizeCss
-    | PutNormalizeCss (Response MisoString)
+    | FetchNormalizeCss
+    | ObtainNormalizeCss (Response MisoString)
 
 newtype Files = Files
     { normalizeCss :: Maybe MisoString

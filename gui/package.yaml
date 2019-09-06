@@ -32,7 +32,6 @@ library:
   - LambdaCase
   - OverloadedStrings
   - DeriveGeneric
-  - CPP
   dependencies:
   - shared
   when:

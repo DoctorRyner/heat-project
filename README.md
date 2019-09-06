@@ -1,7 +1,7 @@
 # Frontend
 
 ## Test and develop with GHC
-`sae test-gui`
+`sae gui-build-ghc`
 
 ## Build with GHCJS
-`sae build-gui`
+`sae gui-build`

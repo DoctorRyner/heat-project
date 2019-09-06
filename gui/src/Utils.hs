@@ -6,6 +6,9 @@ import           Miso
 import           Miso.String
 import           Types
 
+mshow :: Show a => a -> MisoString
+mshow = ms . show
+
 logJS :: MisoString -> JSM ()
 logJS str = consoleLog =<< val (unpack str)
 
