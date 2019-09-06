@@ -20,7 +20,7 @@ dependencies:
 - text
 - jsaddle-dom
 - exceptions
-- servant
+- network-uri
 
 library:
   source-dirs: src

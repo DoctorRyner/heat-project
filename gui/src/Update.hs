@@ -16,4 +16,9 @@ update model = \case
         HttpError err _ -> model `withJS` do
             alert err
             pure NoEvent
-    Init -> batchEff model $ map pure [ FetchNormalizeCss ]
+    Init -> batchEff model $ map pure [ FetchNormalizeCss, GetCurrentURI ]
+    HandleURI uri -> pure $ model { uri = uri }
+    ChangeURI uri -> model `withJS` do
+        pushURI uri
+        pure NoEvent
+    GetCurrentURI -> model `withJS` (HandleURI <$> getCurrentURI)
