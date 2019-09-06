@@ -20,7 +20,14 @@ update model = \case
             alert $ err <> " | " <> ms (show code)
             pure NoEvent
     JSTest -> model `withJS` do
---        x <- HttpReq.xhrGet ""
-        x <- Http.send $ get { url = "https://kurbikus.digital/quiz/static/locales/ru.json", headers = [] }
-        pure $ PutNormalizeCss x
+        x <- Http.send $ get { url = "https://reqres.in/api/users/2" }
+        pure $ JSTestRes x
+--        pure $ PutNormalizeCss x
+    JSTestRes resp -> case resp of
+        Ok r -> model `withJS` do
+            alert $ ms $ show r
+            pure NoEvent
+        HttpError err code -> model `withJS` do
+            alert $ err <> " | " <> ms (show code)
+            pure NoEvent
     Init -> batchEff model $ map pure [ JSTest ]

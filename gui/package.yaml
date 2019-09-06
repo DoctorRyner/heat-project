@@ -18,6 +18,7 @@ dependencies:
 - lens
 - bytestring
 - jsaddle-dom
+- exceptions
 
 library:
   source-dirs: src
