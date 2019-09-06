@@ -4,7 +4,10 @@ module Http where
 
 import           Control.Exception           (Exception, SomeException (..))
 import           Control.Monad               (liftM)
+#ifdef ghcjs_HOST_OS
+#else
 import           Control.Monad.IO.Class      (liftIO)
+#endif
 import           Control.Monad.Catch         (MonadCatch)
 import           Data.Aeson
 import qualified Data.ByteString.Char8       as BS

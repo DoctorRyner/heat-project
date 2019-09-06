@@ -20,6 +20,7 @@ dependencies:
 - text
 - jsaddle-dom
 - exceptions
+- servant
 
 library:
   source-dirs: src
