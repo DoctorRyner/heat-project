@@ -17,6 +17,7 @@ dependencies:
 - aeson
 - lens
 - bytestring
+- text
 - jsaddle-dom
 - exceptions
 

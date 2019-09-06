@@ -1,8 +1,6 @@
 module Update where
 
 --import           Control.Monad.IO.Class (liftIO)
---import           HttpReq
-import           Http
 import           Miso
 import           Miso.String (ms)
 import           Types
@@ -19,15 +17,4 @@ update model = \case
         HttpError err code -> model `withJS` do
             alert $ err <> " | " <> ms (show code)
             pure NoEvent
-    JSTest -> model `withJS` do
-        x <- Http.send $ get { url = "https://reqres.in/api/users/2" }
-        pure $ JSTestRes x
---        pure $ PutNormalizeCss x
-    JSTestRes resp -> case resp of
-        Ok r -> model `withJS` do
-            alert $ ms $ show r
-            pure NoEvent
-        HttpError err code -> model `withJS` do
-            alert $ err <> " | " <> ms (show code)
-            pure NoEvent
-    Init -> batchEff model $ map pure [ JSTest ]
+    Init -> batchEff model $ map pure []

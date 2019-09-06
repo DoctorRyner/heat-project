@@ -22,8 +22,6 @@ data Event
     | Init
     | GetNormalizeCss
     | PutNormalizeCss (Response MisoString)
-    | JSTest
-    | JSTestRes (Response Value)
 
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
