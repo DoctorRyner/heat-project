@@ -2,6 +2,7 @@ module Http where
 
 import           Control.Exception           (Exception, SomeException (..))
 import           Control.Monad               (liftM)
+import           Control.Monad.IO.Class      (liftIO)
 import           Control.Monad.Catch         (MonadCatch)
 import           Data.Aeson
 import qualified Data.ByteString.Char8       as BS
@@ -37,6 +38,16 @@ post = POST
 
 try :: (MonadCatch m, Exception e) => m b -> m (Either e b)
 try a = catch (Right `liftM` a) (return . Left)
+
+getLocalFile :: MisoString -> JSM (Response MisoString)
+getLocalFile path = 
+#ifdef ghcjs_HOST_OS
+    Http.send $ get { url = path, headers = [] }
+#else
+    liftIO (try $ readFile $ unpack path) >>= \case
+        Right file             -> pure $ Ok $ ms file
+        Left (SomeException _) -> pure $ HttpError ("Can't load file at: " <> path) 404
+#endif
 
 send :: (FromJSON response, ToJSON response, ToJSON payload) => Request response payload -> JSM (Response response)
 send = \case
