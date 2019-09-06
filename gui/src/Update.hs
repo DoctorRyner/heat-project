@@ -33,7 +33,11 @@ update model = \case
                     -- if we have query in fragment then we should split fragment and query
                     -- fragment should go to uriPath
                     -- query should go to uriQuery
-                    uri { URI.uriPath = "/" <> tail fragment, URI.uriFragment = "", URI.uriQuery = "" }
+                    
+                    let uriPath = "/" <> tail fragment -- tail removes "# in fragment string, cuz we want path without #"
+                        -- also uriPath isn't correct variant cuz it contains query but it shouldn't
+                        uriQuery = "" -- query should be here
+                    uri { URI.uriPath = uriPath, URI.uriFragment = "", URI.uriQuery = uriQuery }
                 else uri
         when hasFragment $ pushURI newURI
         pure $ HandleURI newURI
