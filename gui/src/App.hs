@@ -4,7 +4,6 @@ import qualified Miso
 import           Types  (Event (..), Model, defaultModel)
 import           Update (update)
 import           View   (view)
-import Utils
 --import Network.Uri
 
 app :: Miso.App Model Event

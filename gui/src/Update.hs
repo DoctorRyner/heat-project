@@ -1,7 +1,9 @@
 module Update where
 
+import           Control.Monad (when)
 import           Http
 import           Miso
+import           Network.URI   as URI
 import           Types
 import           Utils
 
@@ -21,4 +23,17 @@ update model = \case
     ChangeURI uri -> model `withJS` do
         pushURI uri
         pure NoEvent
-    GetCurrentURI -> model `withJS` (HandleURI <$> getCurrentURI)
+    GetCurrentURI -> model `withJS` do
+        uri <- getCurrentURI
+        let fragment    = uriFragment uri
+            hasFragment = take 1 fragment == "#"
+            newURI      = if hasFragment
+                then do
+                    -- QUEST
+                    -- if we have query in fragment then we should split fragment and query
+                    -- fragment should go to uriPath
+                    -- query should go to uriQuery
+                    uri { URI.uriPath = "/" <> tail fragment, URI.uriFragment = "", URI.uriQuery = "" }
+                else uri
+        when hasFragment $ pushURI newURI
+        pure $ HandleURI newURI
