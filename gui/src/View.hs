@@ -12,8 +12,6 @@ view :: Model -> View Event
 view model = case rPath $ uriPath model.uri of
     "/"              -> root
     ""               -> root
-    "about/"         -> button_ [ onClick $ ChangeURI $ changer "" ] [ "WRIIIIIIIIII" ]
-    "about/company/" -> label_ [ onClick $ ChangeURI $ changer "" ] [ "HAAA" ]
     _                -> "404 page"
   where
     root = div_ []
