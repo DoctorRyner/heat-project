@@ -4,7 +4,7 @@ import           Control.Exception           (SomeException (..))
 import           Control.Monad               (when)
 import           Data.Maybe                  (fromMaybe)
 import           Http
-import           Language.Javascript.JSaddle (valToStr)
+import           Language.Javascript.JSaddle (valToStr, valToBool)
 import           Miso
 --import           Miso.String (ms)
 import qualified Miso.String                 as MS
@@ -25,7 +25,7 @@ update model =
                 model `withJS` do
                     alert err
                     pure NoEvent
-        Init -> batchEff model $ map pure [FetchNormalizeCss, GetCurrentURI]
+        Init -> batchEff model $ map pure [FetchNormalizeCss, GetCurrentURI, DeviceCheck]
         HandleURI uri -> pure $ model {uri = uri}
         ChangeURI uri -> model `withJS` do
             pushURI uri
@@ -54,3 +54,18 @@ update model =
                                 pushURI newURI
                                 pure $ HandleURI newURI
                             Nothing -> logJS ("Error in parsing: " <> uriRaw) >> pure NoEvent
+        
+        DeviceCheck -> model `withJS` do
+            isMobile <- valToBool =<< fromJS "(typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);"
+            alert $ mshow model.scHeight <> " | " <> mshow model.scWidth
+            if isMobile  
+                then pure $ DeviceUpdate $ if model.scHeight > model.scWidth
+                    then Mobile
+                    else MobileWide 
+                else pure $ DeviceUpdate PC
+            
+        DeviceUpdate device ->
+            pure model { device = device }
+            
+        ScreenCheck (height, width) ->
+            pure model { scHeight = height, scWidth = width }

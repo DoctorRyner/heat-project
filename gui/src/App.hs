@@ -13,7 +13,9 @@ app = Miso.App
     , update        = flip update
     , view          = view
     , events        = Miso.defaultEvents
-    , subs          = [ Miso.uriSub HandleURI ]
+    , subs          = [ Miso.uriSub HandleURI
+                      , Miso.windowCoordsSub ScreenCheck 
+                      ]
     , mountPoint    = Nothing
     }
 

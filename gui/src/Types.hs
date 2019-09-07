@@ -18,7 +18,9 @@ data Event
     | GetCurrentURI
     | HandleURI URI
     | ChangeURI URI
-
+    | DeviceCheck
+    | DeviceUpdate Device
+    | ScreenCheck (Int, Int)
 
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
@@ -27,10 +29,22 @@ newtype Files = Files
 data Model = Model
     { files :: Files
     , uri   :: URI
+    , device :: Device
+    , scHeight :: Int
+    , scWidth :: Int
     } deriving (Show, Eq)
 
 defaultModel :: Model
 defaultModel = Model
     { files = Files { normalizeCss = Nothing }
     , uri   = URI "" Nothing "" "" ""
+    , device = PC 
+    , scHeight = 0
+    , scWidth = 0
     }
+
+data Device 
+    = PC 
+    | Mobile
+    | MobileWide
+    deriving (Show, Eq)
