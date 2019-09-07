@@ -19,6 +19,7 @@ data Event
     | HandleURI URI
     | ChangeURI URI
 
+
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
     } deriving (Show, Eq)

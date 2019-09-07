@@ -2,13 +2,12 @@
 
 module Http where
 
-import           Control.Exception           (Exception, SomeException (..))
-import           Control.Monad               (liftM)
+import           Control.Exception           (SomeException (..))
 #ifdef ghcjs_HOST_OS
 #else
 import           Control.Monad.IO.Class      (liftIO)
-#endif
 import           Control.Monad.Catch         (MonadCatch)
+#endif
 import           Data.Aeson
 import qualified Data.ByteString.Char8       as BS
 import           JSDOM.Custom.XMLHttpRequest as JSDOM hiding (error)
@@ -16,6 +15,7 @@ import           Language.Javascript.JSaddle hiding (JSM)
 import           Miso
 import           Miso.String
 import           Types
+import           Utils (try)
 
 data Request response payload
     = GET
@@ -40,9 +40,6 @@ post = POST
     , headers = [("Content-Type", "application/json")]
     , payload = Nothing
     }
-
-try :: (MonadCatch m, Exception e) => m b -> m (Either e b)
-try a = catch (Right `liftM` a) (return . Left)
 
 getLocalFile :: MisoString -> JSM (Response MisoString)
 getLocalFile path = 

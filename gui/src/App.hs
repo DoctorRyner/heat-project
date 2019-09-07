@@ -18,7 +18,4 @@ app = Miso.App
     }
 
 runApp :: Miso.JSM ()
-runApp = do
-    currentURI <- Miso.getCurrentURI
-    let initModel = (Miso.model app) { uri = currentURI }
-    Miso.startApp $ app { Miso.model = initModel }
+runApp = Miso.startApp app
