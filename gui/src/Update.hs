@@ -16,10 +16,9 @@ update :: Model -> Event -> Effect Event Model
 update model =
     \case
         NoEvent -> pure model
-        FetchNormalizeCss ->
-            model `withJS` do
-                normalizeCss <- Http.getLocalFile "static/css/normalize.css"
-                pure $ ObtainNormalizeCss normalizeCss
+        FetchNormalizeCss -> model `withJS` do
+            normalizeCss <- Http.getLocalFile "static/css/normalize.css"
+            pure $ ObtainNormalizeCss normalizeCss
         ObtainNormalizeCss resp -> case resp of
             Ok file -> pure $ model {files = model.files {normalizeCss = Just file}}
             HttpError err _ ->
