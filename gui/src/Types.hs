@@ -3,8 +3,8 @@ module Types where
 --import           Data.Aeson
 --import           GHC.Generics
 import           Miso.String
-import           Prelude hiding (id)
-import Network.URI
+import           Network.URI
+import           Prelude     hiding (id)
 
 data Response ok
     = Ok ok
@@ -15,7 +15,7 @@ data Event
     | Init
     | FetchNormalizeCss
     | ObtainNormalizeCss (Response MisoString)
-    | GetCurrentURI
+    | InitAppURI
     | HandleURI URI
     | ChangeURI URI
     | DeviceCheck
@@ -27,24 +27,24 @@ newtype Files = Files
     } deriving (Show, Eq)
 
 data Model = Model
-    { files :: Files
-    , uri   :: URI
-    , device :: Device
+    { files    :: Files
+    , uri      :: URI
+    , device   :: Device
     , scHeight :: Int
-    , scWidth :: Int
+    , scWidth  :: Int
     } deriving (Show, Eq)
 
 defaultModel :: Model
 defaultModel = Model
     { files = Files { normalizeCss = Nothing }
     , uri   = URI "" Nothing "" "" ""
-    , device = PC 
+    , device = PC
     , scHeight = 0
     , scWidth = 0
     }
 
-data Device 
-    = PC 
+data Device
+    = PC
     | Mobile
     | MobileWide
     deriving (Show, Eq)

@@ -18,6 +18,3 @@ app = Miso.App
                       ]
     , mountPoint    = Nothing
     }
-
-runApp :: Miso.JSM ()
-runApp = Miso.startApp app

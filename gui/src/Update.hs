@@ -1,71 +1,37 @@
 module Update where
 
-import           Control.Exception           (SomeException (..))
-import           Control.Monad               (when)
-import           Data.Maybe                  (fromMaybe)
 import           Http
-import           Language.Javascript.JSaddle (valToStr, valToBool)
+import           Language.Javascript.JSaddle (valToBool)
 import           Miso
---import           Miso.String (ms)
-import qualified Miso.String                 as MS
-import           Network.URI                 as URI
+import           Router.URI
 import           Types
 import           Utils
 
 update :: Model -> Event -> Effect Event Model
-update model =
-    \case
-        NoEvent -> pure model
-        FetchNormalizeCss -> model `withJS` do
-            normalizeCss <- Http.getLocalFile "static/css/normalize.css"
-            pure $ ObtainNormalizeCss normalizeCss
-        ObtainNormalizeCss resp -> case resp of
-            Ok file -> pure $ model {files = model.files {normalizeCss = Just file}}
-            HttpError err _ ->
-                model `withJS` do
-                    alert err
-                    pure NoEvent
-        Init -> batchEff model $ map pure [FetchNormalizeCss, GetCurrentURI, DeviceCheck]
-        HandleURI uri -> pure $ model {uri = uri}
-        ChangeURI uri -> model `withJS` do
-            pushURI uri
-            pure NoEvent
-        GetCurrentURI ->
-            model `withJS` do
-                let uriCorrector uri = do
-                        let fragment = uriFragment uri
-                            hasFragment = take 1 fragment == "#"
-                            newURI =
-                                if hasFragment
-                                    then do
-                                        let uriPath = "/" <> tail fragment
-                                        fromMaybe uri $
-                                            URI.parseURI $ show $ uri {URI.uriPath = uriPath, URI.uriFragment = ""}
-                                    else uri
-                        when hasFragment $ pushURI newURI
-                        pure $ HandleURI newURI
-                try getCurrentURI >>= \case
-                    Right uri -> uriCorrector uri
-                    Left (SomeException _) -> do
-                        uriRaw <- valToStr =<< fromJS "window.location.href"
-                        let correctedUriString = deleteFirst '#' $ MS.unpack uriRaw
-                        case URI.parseURI correctedUriString of
-                            Just newURI -> do
-                                pushURI newURI
-                                pure $ HandleURI newURI
-                            Nothing -> logJS ("Error in parsing: " <> uriRaw) >> pure NoEvent
-        
-        DeviceCheck -> model `withJS` do
-            isMobile <- valToBool =<< fromJS "(typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);"
-            alert $ mshow model.scHeight <> " | " <> mshow model.scWidth
-            if isMobile  
-                then pure $ DeviceUpdate $ if model.scHeight > model.scWidth
-                    then Mobile
-                    else MobileWide 
-                else pure $ DeviceUpdate PC
-            
-        DeviceUpdate device ->
-            pure model { device = device }
-            
-        ScreenCheck (height, width) ->
-            pure model { scHeight = height, scWidth = width }
+update model = \case
+    -- Some init events
+    Init -> batchEff model $ map pure [ FetchNormalizeCss, InitAppURI, DeviceCheck ]
+    
+    -- Event that does nothing
+    NoEvent -> pure model
+
+    -- Loading css files
+    FetchNormalizeCss -> withJS model $ ObtainNormalizeCss <$> Http.getLocalFile "static/css/normalize.css"
+    ObtainNormalizeCss resp -> fromResp resp model $ \file -> model { files = model.files { normalizeCss = Just file } }
+    
+    -- Working with URL routing
+    HandleURI uri -> pure $ model { uri = uri }
+    ChangeURI uri -> model `withJS_` pushURI uri
+    InitAppURI    -> Router.URI.initURI model
+    
+    -- Obtaining info about device
+    DeviceCheck -> model `withJS` do
+        isMobile <- valToBool =<< fromJS
+            "(typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1)"
+        pure $ if isMobile
+            then DeviceUpdate $ if model.scHeight > model.scWidth then Mobile else MobileWide
+            else DeviceUpdate PC
+    DeviceUpdate device -> pure model { device = device }
+
+    -- Subscription event which updates screen info
+    ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }

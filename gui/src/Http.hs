@@ -6,7 +6,6 @@ import           Control.Exception           (SomeException (..))
 #ifdef ghcjs_HOST_OS
 #else
 import           Control.Monad.IO.Class      (liftIO)
-import           Control.Monad.Catch         (MonadCatch)
 #endif
 import           Data.Aeson
 import qualified Data.ByteString.Char8       as BS

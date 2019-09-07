@@ -22,8 +22,14 @@ logJS' str = consoleLog =<< val (show str)
 withJS :: model -> JSM event -> Effect event model
 withJS = (<#)
 
+withJS_ :: model -> JSM () -> Effect Event model
+withJS_ model action = model <# (action >> pure NoEvent) 
+
 withIO :: model -> IO event -> Effect event model
 withIO model = (model <#) . liftIO
+
+withIO_ :: model -> IO () -> Effect Event model
+withIO_ model action = model <# (liftIO action >> pure NoEvent)
 
 maybeStyle :: Maybe MisoString -> View Event
 maybeStyle = \case
@@ -46,3 +52,8 @@ deleteFirst a (b:bc) | a == b    = bc
 
 changeRoute :: MisoString -> URI -> Event
 changeRoute routeStr uri = ChangeURI $ uri { URI.uriPath = unpack routeStr }
+
+fromResp :: Response response -> model -> (response -> model) -> Effect Event model
+fromResp response model updator = case response of
+    Ok resp         -> pure $ updator resp
+    HttpError err _ -> model `withJS_` logJS err
