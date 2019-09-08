@@ -22,9 +22,6 @@ dependencies:
 - exceptions
 - network-uri
 - containers
-- warp
-- websockets
-- wai-middleware-static
 
 library:
   source-dirs: src
@@ -45,7 +42,9 @@ library:
       dependencies: ghcjs-base
     else:
       dependencies:
-      - wreq
+      - warp
+      - websockets
+      - wai-middleware-static
 
 executables:
   gui:
