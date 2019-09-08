@@ -26,6 +26,10 @@ newtype Files = Files
     { normalizeCss :: Maybe MisoString
     } deriving (Show, Eq)
 
+data SubRoute
+    = MisoString
+--    |
+
 data Model = Model
     { files    :: Files
     , uri      :: URI
