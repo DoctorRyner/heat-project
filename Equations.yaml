@@ -11,8 +11,8 @@ gui-build-test-ghc: |
 gui-build-test: |
   sae gui-build
   cd gui
-  cp -r static /Users/local/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
-  cd /Users/local/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+  cp -r static ~/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+  cd ~/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
   python -m SimpleHTTPServer
 
 gui-build: |

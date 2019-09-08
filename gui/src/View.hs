@@ -4,17 +4,19 @@ import           Miso
 import qualified Style.Global
 import           Types
 import           Utils
+import qualified View.Header
 
 view :: Model -> View Event
-view model = case uriToRouteString model.uri of
-    ""               -> root
-    -- Example routes (DON'T USE / IN END OF ROUTE LIKE IN "about/company/" THIS WILL NOT WORK)
-    "about"          -> "about page"
-    "about/company"  -> "about company page"
-    _                -> "404 page"
-  where
-    root = div_ []
-        [ maybeStyle model.files.normalizeCss
-        , maybeStyle . Just $ Style.Global.css
-        , label_ [ onClick $ changeRoute "about/company" model.uri ] [ text $ mshow model.uri ]
-        ]
+view model = div_ []
+    [ maybeStyle model.files.normalizeCss
+    , maybeStyle . Just $ Style.Global.css
+    , View.Header.render model
+    , curRoute
+    ]
+  where 
+    curRoute = case uriToRouteString model.uri of
+        ""               -> ""
+        "about"          -> "about page"
+        "about/company"  -> "about company page"
+        _                -> "404 page"
+    
