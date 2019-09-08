@@ -24,8 +24,6 @@ dependencies:
 - containers
 - warp
 - websockets
-- wai
-- wai-app-static
 - wai-middleware-static
 
 library:

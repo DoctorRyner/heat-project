@@ -41,14 +41,7 @@ post = POST
     }
 
 getLocalFile :: MisoString -> JSM (Response MisoString)
-getLocalFile path = 
-#ifdef ghcjs_HOST_OS
-    Http.sendPlain $ get { url = path, headers = [] }
-#else
-    liftIO (try $ readFile $ unpack path) >>= \case
-        Right file             -> pure $ Ok $ ms file
-        Left (SomeException _) -> pure $ HttpError ("Can't load file at: " <> path) 404
-#endif
+getLocalFile path = Http.sendPlain $ get { url = path, headers = [] }
 
 send :: (FromJSON response, ToJSON response, ToJSON payload) => Request response payload -> JSM (Response response)
 send = \case

@@ -1,7 +1,7 @@
 gui-test: |
   cd gui
   stack build record-dot-preprocessor --copy-compiler-tool
-  ghcid -c "stack ghci gui" -r="Language.Javascript.JSaddle.Warp.debug 8000 $ startApp app" --warnings
+  ghcid -c "stack ghci gui" -r="TestServer.debug 8000 $ startApp app" --warnings
 
 gui-build-test-ghc: |
   cd gui
