@@ -1,7 +1,6 @@
 module Style.Global where
 
 import           Clay
-import           Clay.Color
 import           Clay.Extra
 import           Miso.String hiding (center)
 
@@ -18,6 +17,7 @@ mainHeader = element ".header" ? do
     backgroundColor "#ffffff"
     width $ pct 100
     height $ vw 8
+    -- !TODO replace boxShadow'
     boxShadow' (px 0) (px 4) (px 20) (rgba 0 0 0 0.25 )
     display flex
     flexDirection row

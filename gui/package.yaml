@@ -22,6 +22,11 @@ dependencies:
 - exceptions
 - network-uri
 - containers
+- warp
+- websockets
+- wai
+- wai-app-static
+- wai-middleware-static
 
 library:
   source-dirs: src
