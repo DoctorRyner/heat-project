@@ -21,6 +21,7 @@ dependencies:
 - jsaddle-dom
 - exceptions
 - network-uri
+- containers
 
 library:
   source-dirs: src

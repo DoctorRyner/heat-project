@@ -36,11 +36,11 @@ data Model = Model
 
 defaultModel :: Model
 defaultModel = Model
-    { files = Files { normalizeCss = Nothing }
-    , uri   = URI "" Nothing "" "" ""
-    , device = PC
+    { files    = Files { normalizeCss = Nothing }
+    , uri      = URI "" Nothing "" "" ""
+    , device   = PC
     , scHeight = 0
-    , scWidth = 0
+    , scWidth  = 0
     }
 
 data Device

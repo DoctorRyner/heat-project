@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 module Router.URI where
 
 import           Control.Exception           (SomeException (..))
@@ -12,6 +14,10 @@ import           Utils
 
 initURI :: Model -> Effect Event Model
 initURI model = model `withJS` do
+    #ifdef ghcjs_HOST_OS
+    uri <- getCurrentURI
+    pure $ HandleURI uri
+    #else
     let uriCorrector uri = do
             let fragment = uriFragment uri
                 hasFragment = take 1 fragment == "#"
@@ -34,3 +40,4 @@ initURI model = model `withJS` do
                     pushURI newURI
                     pure $ HandleURI newURI
                 Nothing -> logJS ("Error in parsing: " <> uriRaw) >> pure NoEvent
+#endif

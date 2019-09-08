@@ -4,9 +4,10 @@ import           Control.Exception           (Exception)
 import           Control.Monad               (liftM)
 import           Control.Monad.Catch         (MonadCatch)
 import           Control.Monad.IO.Class      (liftIO)
-import           Language.Javascript.JSaddle hiding (JSM, (<#))
+import           Language.Javascript.JSaddle hiding (JSM, (!!), (<#))
 import           Miso
-import           Miso.String
+import           Miso.String                 (MisoString, unpack, ms)
+import qualified Miso.String                 as MS
 import           Network.URI                 as URI
 import           Types
 
@@ -23,7 +24,7 @@ withJS :: model -> JSM event -> Effect event model
 withJS = (<#)
 
 withJS_ :: model -> JSM () -> Effect Event model
-withJS_ model action = model <# (action >> pure NoEvent) 
+withJS_ model action = model <# (action >> pure NoEvent)
 
 withIO :: model -> IO event -> Effect event model
 withIO model = (model <#) . liftIO
@@ -43,7 +44,7 @@ fromJS :: MisoString -> JSM JSVal
 fromJS = eval
 
 fromJS' :: [MisoString] -> JSM JSVal
-fromJS' = eval . Miso.String.unlines
+fromJS' = eval . MS.unlines
 
 deleteFirst :: Eq t => t -> [t] -> [t]
 deleteFirst _ [] = []
@@ -57,3 +58,9 @@ fromResp :: Response response -> model -> (response -> model) -> Effect Event mo
 fromResp response model updator = case response of
     Ok resp         -> pure $ updator resp
     HttpError err _ -> model `withJS_` logJS err
+
+uriToRouteString :: URI -> String
+uriToRouteString = eraseSlashAtPathEdges . uriPath where
+    eraseSlashAtPathEdges str = if str == "" || str == "/"
+        then ""
+        else tail $ (if last str == '/' then init else id) str
