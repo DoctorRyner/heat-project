@@ -1,6 +1,6 @@
 module Style.Global where
 
-import           Clay
+import           Clay        hiding (menu)
 import           Clay.Extra
 import           Miso.String hiding (center)
 
@@ -15,7 +15,11 @@ css = Miso.String.ms . render $ do
 -- LABEL/TEXT STYLES
     helloMes
     buttonMes
+    menuMes
 -- LABEL/TEXT STYLES
+    menuItem
+    menuCont
+    menu
     pure ()
 
 mainHeader :: Css
@@ -30,9 +34,17 @@ mainHeader = element ".header" ? do
     alignItems center
     justifyContent center
 
+menuCont :: Css
+menuCont = element ".mcont" ? do
+    height $ pct 80
+    display flex
+    flexDirection column
+    alignItems center
+    position relative
+
 mainImgStylePop :: Css
 mainImgStylePop = element ".imgPop" ? do
-    height $ pct 80
+    height $ pct 100
     backgroundSize cover
 
 mainImgStyle :: Css
@@ -52,17 +64,14 @@ buttonStyle = element ".butt" ? do
     alignItems center
     justifyContent center
 
-contentStyle :: Css 
+contentStyle :: Css
 contentStyle = element ".content" ? do
     width $ pct 100
     height $ vh 88
     display flex
---    justifyContent center
     alignItems center
     flexDirection column
-    
-    
---    backgroundColor "#000000"
+
 buttonMes :: Css
 buttonMes = element ".buttMes" ? do
     fontSize $ px 36
@@ -73,3 +82,34 @@ helloMes = element ".hello" ? do
     fontSize $ px 70
     marginTop $ pct 4
     color "#575757"
+
+menuItem :: Css
+menuItem = element ".menu-item" ? do
+    width $ pct 100
+    height $ px 75
+    display flex
+    justifyContent center
+    alignItems center
+    color "#414141"
+    fontSize $ px 20
+    hover & backgroundColor (rgba 224 224 224 0.6)
+    paddingBottom $ px 0
+
+menu :: Css
+menu = element ".menu" ? do
+    width $ pct 350
+    height $ px 300
+    backgroundColor (rgba 255 255 255 0.88)
+    boxShadow' (px 0) (px 8) (px 16) (rgba 0 0 0 0.25)
+    borderRadius1 5
+    "backdrop-filter" -: "blur(32px)"
+    position absolute
+    marginTop $ pct 100
+    marginLeft $ pct 125
+
+menuMes :: Css
+menuMes = element ".menuMes" ? do
+    width $ pct 80
+    textAlign start
+--    /* Note: backdrop-filter has minimal browser support */
+--    border-radius: 5px;

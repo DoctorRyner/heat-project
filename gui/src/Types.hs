@@ -21,14 +21,23 @@ data Event
     | DeviceCheck
     | DeviceUpdate Device
     | ScreenCheck (Int, Int)
-
+    | SwitchMenu
+    
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
     } deriving (Show, Eq)
 
-data SubRoute
-    = MisoString
---    |
+data MenuItem = MenuItem { routePath, label :: MisoString }
+
+type Menu = [MenuItem]
+
+menu :: Menu 
+menu = 
+    [ MenuItem "about"        "О нас"
+    , MenuItem "planning"     "Проектирование"
+    , MenuItem "montage"      "Монтажные работы"
+    , MenuItem "individ-proj" "Индивидуальный проект"
+    ]
 
 data Model = Model
     { files    :: Files
@@ -36,6 +45,7 @@ data Model = Model
     , device   :: Device
     , scHeight :: Int
     , scWidth  :: Int
+    , shouldShowMenu :: Bool
     } deriving (Show, Eq)
 
 defaultModel :: Model
@@ -45,6 +55,7 @@ defaultModel = Model
     , device   = PC
     , scHeight = 0
     , scWidth  = 0
+    , shouldShowMenu = False
     }
 
 data Device

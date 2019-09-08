@@ -35,4 +35,6 @@ update model = \case
 
     -- Subscription event which updates screen info
     ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
+    
+    SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
 

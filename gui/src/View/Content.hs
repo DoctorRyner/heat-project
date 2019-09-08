@@ -2,6 +2,8 @@ module View.Content where
 
 import Miso
 import Types
+import Utils
+--import 
 
 render :: Model -> View Event
 render model = div_ [class_ "content"] 

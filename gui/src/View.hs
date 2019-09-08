@@ -18,6 +18,9 @@ view model = div_ []
     curRoute = case uriToRouteString model.uri of
         ""               -> View.Content.render model
         "about"          -> "about page"
+        "planning"       -> text $ mshow model.uri 
+        "montage"        -> text $ mshow model.uri 
+        "individ-proj"   -> text $ mshow model.uri 
         "about/company"  -> "about company page"
         _                -> "404 page"
     
