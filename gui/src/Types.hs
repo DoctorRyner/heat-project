@@ -23,15 +23,17 @@ data Event
     | ObtainLocale (Response Locale)
     | SwitchMenu
     | ChangeMob
+--    | SwitchArticle
 
 data Model = Model
-    { files          :: Files
-    , uri            :: URI
-    , device         :: Device
-    , scHeight       :: Int
-    , scWidth        :: Int
-    , locale         :: Locale
-    , shouldShowMenu :: Bool
+    { files             :: Files
+    , uri               :: URI
+    , device            :: Device
+    , scHeight          :: Int
+    , scWidth           :: Int
+    , locale            :: Locale
+    , shouldShowMenu    :: Bool
+--    , articleItems :: ArticleItem
     } deriving (Show, Eq)
 
 defaultModel :: Model
@@ -43,6 +45,7 @@ defaultModel = Model
     , scWidth  = 0
     , locale   = HMap.empty
     , shouldShowMenu = False
+--    , articleItem = ArticleItem { shouldShow = True}
     }
 
 data Device
@@ -77,17 +80,22 @@ menu =
     , MenuItem "individ-proj" "Индивидуальный проект"
     ]
 
-data ArticleItem = ArticleItem { title, text_ :: MisoString, imgs :: [MisoString] }
+data ArticleItem = ArticleItem 
+    { title, text_ :: MisoString
+    , shouldShow :: Bool
+    ,  imgs :: [MisoString] 
+    } 
 
 type Article = [ArticleItem]
 
 article :: Article
 article =
-    [ ArticleItem "Я заголовок" "Я текст" ["static/img/okrovla.jpg" ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoronka.jpg"]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/okapla.jpg"  ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/okray.jpg"   ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/oendo.jpg"   ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/oglass.jpg"  ]
+    [ ArticleItem "okrovliTitle"  "okrovliText"  True  [ "static/img/okrovla.jpg"  ]
+    , ArticleItem "ovoronkiTitle" "ovoronkiText" False [ "static/img/ovoronka.jpg" ]
+    , ArticleItem "ovodaTitle"    "ovodaText"    False [ "static/img/ovoda1.jpg" 
+                                                       , "static/img/ovoda2.jpg"   ]
+    , ArticleItem "okaplaTitle"   "okaplaText"   False [ "static/img/okapla.jpg"   ]
+    , ArticleItem "okrayTitle"    "okrayText"    False [ "static/img/okray.jpg"    ]
+    , ArticleItem "oendoTitle"    "oendoText"    False [ "static/img/oendo.jpg"    ]
+    , ArticleItem "oglassTitle"   "oglassText"   False [ "static/img/oglass.jpg"   ]
     ]

@@ -22,6 +22,7 @@ css model = Miso.String.ms . render $ do
     buttonMes
     menuMes
     textWall
+    titleHolder
 -- LABEL/TEXT STYLES
     menuItem
     menuCont
@@ -59,6 +60,13 @@ css model = Miso.String.ms . render $ do
         display flex
         alignItems center
         justifyContent center
+        
+titleHolder :: Css
+titleHolder = element ".title-holder" ? do
+    width $ pct 100
+    display flex
+--    flexDirection flexStart
+--    flexDirection $ start
 
 menuContWall :: Css
 menuContWall = element ".mcontw" ? do
@@ -211,6 +219,7 @@ wrapperStyle :: Css
 wrapperStyle = element ".wrapper" ? do
     width $ pct 100
 --    height $ px 0
+    marginTop $ pct 3
     display flex
     flexDirection column
     alignItems center
