@@ -6,18 +6,34 @@ import           Types
 import           Utils
 import qualified View.Header
 import qualified View.Content
+import qualified View.About
 
 view :: Model -> View Event
 view model = div_ []
     [ maybeStyle model.files.normalizeCss
-    , maybeStyle . Just $ Style.Global.css
+    , maybeStyle . Just $ Style.Global.css model
     , View.Header.render model
+    , if model.device == Mobile && model.shouldShowMenu 
+        then div_ [] 
+            [ div_ [class_ "menuMob"]
+                $ map
+                (\x -> div_
+                    [ class_ "menu-item-mob"
+                    , onClick $ changeRoute x.routePath model.uri
+                    ] [label_ [class_ "menuMes"] [text x.label]]
+                ) menu
+            ]
+        else ""
     , curRoute
     ]
   where 
     curRoute = case uriToRouteString model.uri of
-        ""               -> View.Content.render model
-        "about"          -> "about page"
+        ""               -> 
+--        View.About.render model
+            View.Content.render model
+        "about"          -> 
+       
+            View.About.render model
         "planning"       -> text $ mshow model.uri 
         "montage"        -> text $ mshow model.uri 
         "individ-proj"   -> text $ mshow model.uri 

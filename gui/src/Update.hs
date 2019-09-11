@@ -37,4 +37,6 @@ update model = \case
     ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
     
     SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
+    
+    ChangeMob -> model `withJS` (pure $ DeviceUpdate Mobile)
 

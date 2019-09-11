@@ -22,6 +22,7 @@ data Event
     | DeviceUpdate Device
     | ScreenCheck (Int, Int)
     | SwitchMenu
+    | ChangeMob
     
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
@@ -37,6 +38,21 @@ menu =
     , MenuItem "planning"     "Проектирование"
     , MenuItem "montage"      "Монтажные работы"
     , MenuItem "individ-proj" "Индивидуальный проект"
+    ]
+
+data ArticleItem = ArticleItem { title, text_ :: MisoString, imgs :: [MisoString] }
+
+type Article = [ArticleItem] 
+
+article :: Article
+article = 
+    [ ArticleItem "Я заголовок" "Я текст" ["static/img/okrovla.jpg" ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoronka.jpg"]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/okapla.jpg"  ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/okray.jpg"   ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/oendo.jpg"   ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/oglass.jpg"  ]
     ]
 
 data Model = Model
