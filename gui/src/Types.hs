@@ -23,45 +23,14 @@ data Event
     | ObtainLocale (Response Locale)
     | SwitchMenu
     | ChangeMob
-    
-newtype Files = Files
-    { normalizeCss :: Maybe MisoString
-    } deriving (Show, Eq)
-
-data MenuItem = MenuItem { routePath, label :: MisoString }
-
-type Menu = [MenuItem]
-
-menu :: Menu 
-menu = 
-    [ MenuItem "about"        "О нас"
-    , MenuItem "planning"     "Проектирование"
-    , MenuItem "montage"      "Монтажные работы"
-    , MenuItem "individ-proj" "Индивидуальный проект"
-    ]
-
-data ArticleItem = ArticleItem { title, text_ :: MisoString, imgs :: [MisoString] }
-
-type Article = [ArticleItem] 
-
-article :: Article
-article = 
-    [ ArticleItem "Я заголовок" "Я текст" ["static/img/okrovla.jpg" ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoronka.jpg"]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/okapla.jpg"  ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/okray.jpg"   ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/oendo.jpg"   ]
-    , ArticleItem "Я заголовок" "Я текст" ["static/img/oglass.jpg"  ]
-    ]
 
 data Model = Model
-    { files    :: Files
-    , uri      :: URI
-    , device   :: Device
-    , scHeight :: Int
-    , scWidth  :: Int
-    , locale   :: Locale
+    { files          :: Files
+    , uri            :: URI
+    , device         :: Device
+    , scHeight       :: Int
+    , scWidth        :: Int
+    , locale         :: Locale
     , shouldShowMenu :: Bool
     } deriving (Show, Eq)
 
@@ -95,3 +64,30 @@ type Locale = HMap.HashMap T.Text T.Text
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
     } deriving (Show, Eq)
+
+data MenuItem = MenuItem { routePath, label :: MisoString }
+
+type Menu = [MenuItem]
+
+menu :: Menu
+menu =
+    [ MenuItem "about"        "О нас"
+    , MenuItem "planning"     "Проектирование"
+    , MenuItem "montage"      "Монтажные работы"
+    , MenuItem "individ-proj" "Индивидуальный проект"
+    ]
+
+data ArticleItem = ArticleItem { title, text_ :: MisoString, imgs :: [MisoString] }
+
+type Article = [ArticleItem]
+
+article :: Article
+article =
+    [ ArticleItem "Я заголовок" "Я текст" ["static/img/okrovla.jpg" ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoronka.jpg"]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/okapla.jpg"  ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/okray.jpg"   ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/oendo.jpg"   ]
+    , ArticleItem "Я заголовок" "Я текст" ["static/img/oglass.jpg"  ]
+    ]

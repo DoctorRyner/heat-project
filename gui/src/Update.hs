@@ -38,7 +38,7 @@ update model = \case
     
     SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
     
-    ChangeMob -> model `withJS` (pure $ DeviceUpdate Mobile)
+    ChangeMob -> model `withJS` pure (DeviceUpdate Mobile)
 
     -- Obtain Locale
     FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
