@@ -35,6 +35,10 @@ update model = \case
 
     -- Subscription event which updates screen info
     ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
+    
+    SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
+    
+    ChangeMob -> model `withJS` (pure $ DeviceUpdate Mobile)
 
     -- Obtain Locale
     FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
