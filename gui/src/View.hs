@@ -12,7 +12,6 @@ view :: Model -> View Event
 view model = div_ []
     [ maybeStyle model.files.normalizeCss
     , maybeStyle . Just $ Style.Global.css model
-    , View.Header.render model
     , if model.device == Mobile && model.shouldShowMenu 
         then div_ [] 
             [ div_ [class_ "menuMob"]
@@ -24,6 +23,7 @@ view model = div_ []
                 ) menu
             ]
         else ""
+    , div_ [] [View.Header.render model]
     , curRoute
     ]
   where 

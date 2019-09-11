@@ -33,6 +33,11 @@ css model = Miso.String.ms . render $ do
     imgWall
     imgWallCont
 -- IMG STYLES
+
+-- TEST STYLES
+
+-- TEST STYLES
+
   where
     mainImgStyle = element ".img" ? do
         width $ pct $ if model.device == Mobile
@@ -54,19 +59,6 @@ css model = Miso.String.ms . render $ do
         display flex
         alignItems center
         justifyContent center
-
-mainHeader :: Css
-mainHeader = element ".header" ? do
-    backgroundColor "#ffffff"
-    width $ pct 100
-    height $ vh 12
-    -- !TODO replace boxShadow'
-    boxShadow' (px 0) (px 4) (px 20) (rgba 0 0 0 0.25 )
-    display flex
-    flexDirection row
-    alignItems center
-    justifyContent center
-    position fixed
 
 menuContWall :: Css
 menuContWall = element ".mcontw" ? do
@@ -95,11 +87,25 @@ contentStyle :: Css
 contentStyle = element ".content" ? do
     width $ pct 100
     height $ vh 88
-    transform $ translateY $ vh 12 
-    zIndex 1 
+    transform $ translateY $ vh 6
+    zIndex 1000
     display flex
     alignItems center
     flexDirection column
+    
+mainHeader :: Css
+mainHeader = element ".header" ? do
+    backgroundColor "#ffffff"
+    width $ pct 100
+    height $ vh 12
+    -- !TODO replace boxShadow'
+    boxShadow' (px 0) (px 4) (px 20) (rgba 0 0 0 0.25 )
+    display flex
+    flexDirection row
+    alignItems center
+    zIndex 1000
+    justifyContent center
+    position fixed
 
 buttonMes :: Css
 buttonMes = element ".buttMes" ? do
