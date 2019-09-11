@@ -10,20 +10,20 @@ import           Utils
 update :: Model -> Event -> Effect Event Model
 update model = \case
     -- Some init events
-    Init -> batchEff model $ map pure [ FetchNormalizeCss, InitAppURI, DeviceCheck ]
-    
+    Init -> batchEff model $ map pure [ FetchNormalizeCss, InitAppURI, DeviceCheck, FetchLocale ]
+
     -- Event that does nothing
     NoEvent -> pure model
 
     -- Loading css files
     FetchNormalizeCss -> withJS model $ ObtainNormalizeCss <$> Http.getLocalFile "static/css/normalize.css"
     ObtainNormalizeCss resp -> fromResp resp model $ \file -> model { files = model.files { normalizeCss = Just file } }
-    
+
     -- Working with URL routing
     HandleURI uri -> pure $ model { uri = uri }
     ChangeURI uri -> model `withJS_` pushURI uri
     InitAppURI    -> Router.URI.initURI model
-    
+
     -- Obtaining info about device
     DeviceCheck -> model `withJS` do
         isMobile <- valToBool =<< fromJS
@@ -40,3 +40,6 @@ update model = \case
     
     ChangeMob -> model `withJS` (pure $ DeviceUpdate Mobile)
 
+    -- Obtain Locale
+    FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
+    ObtainLocale resp -> fromResp resp model $ \locale -> model { locale = locale }

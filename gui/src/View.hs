@@ -26,7 +26,7 @@ view model = div_ []
     , div_ [] [View.Header.render model]
     , curRoute
     ]
-  where 
+  where
     curRoute = case uriToRouteString model.uri of
         ""               -> 
 --        View.About.render model
@@ -39,4 +39,3 @@ view model = div_ []
         "individ-proj"   -> text $ mshow model.uri 
         "about/company"  -> "about company page"
         _                -> "404 page"
-    
