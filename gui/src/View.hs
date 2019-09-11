@@ -12,7 +12,6 @@ view model = div_ []
     [ maybeStyle model.files.normalizeCss
     , maybeStyle . Just $ Style.Global.css
     , View.Header.render model
-    , text $ l "about" model.locale
     , curRoute
     ]
   where

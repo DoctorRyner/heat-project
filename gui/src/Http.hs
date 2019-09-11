@@ -76,8 +76,8 @@ send = \case
             Right _ -> do
                 resRaw <- valToStr =<< getResponse req
                 statusNum <- fromEnum <$> getStatus req
-                let resBS = BS.pack $ unpack resRaw
-                case eitherDecodeStrict resBS of
+                let resBS = TLEncoding.encodeUtf8 $ TL.pack $ unpack resRaw
+                case eitherDecode resBS of
                     Right res -> do
                         let isOk = Prelude.take 1 (show statusNum) == "2"
                         if isOk

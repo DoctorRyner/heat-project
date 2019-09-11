@@ -1,15 +1,8 @@
 module Update where
 
-import           Control.Monad.IO.Class      (liftIO)
-import           Data.Aeson
-import qualified Data.ByteString.Lazy.Char8  as BS
-import qualified Data.HashMap.Strict         as HMap
-import qualified Data.Text.Lazy              as TL
-import qualified Data.Text.Lazy.Encoding     as TLEncoding
 import           Http
 import           Language.Javascript.JSaddle (valToBool)
 import           Miso
-import qualified Miso.String                 as MS
 import           Router.URI
 import           Types
 import           Utils
@@ -44,19 +37,5 @@ update model = \case
     ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
 
     -- Obtain Locale
-    FetchLocale -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
-    ObtainLocale resp -> fromResp resp model $ \case
-        Object hash -> do
-            let _JSONStringToText = \case String res -> res; _ -> ""
-                locale = HMap.map _JSONStringToText $ HMap.fromList $ filter
-                    (\case
-                        (_, String _) -> True
-                        _             -> False
-                    ) $ HMap.toList hash
-            model { locale = locale }
-        _           -> model
-    ObtainLocaleRaw resp -> fromRespDebug resp model $ \file -> do
-        let bsFile = TLEncoding.encodeUtf8 $ TL.pack $ MS.unpack file
-        liftIO $ print $ HMap.fromList [ ("montegro" :: TL.Text, String "О нас") ]
-        liftIO $ print $  TLEncoding.decodeUtf8 $ TLEncoding.encodeUtf8 $ TL.pack $ show $ (decode bsFile :: Maybe Value)
-        pure model
+    FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
+    ObtainLocale resp -> fromResp resp model $ \locale -> model { locale = locale }

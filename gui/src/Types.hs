@@ -20,8 +20,7 @@ data Event
     | DeviceUpdate Device
     | ScreenCheck (Int, Int)
     | FetchLocale
-    | ObtainLocale (Response Value)
-    | ObtainLocaleRaw (Response MisoString)
+    | ObtainLocale (Response Locale)
 
 data Model = Model
     { files    :: Files
@@ -61,6 +60,3 @@ type Locale = HMap.HashMap T.Text T.Text
 newtype Files = Files
     { normalizeCss :: Maybe MisoString
     } deriving (Show, Eq)
-
-l :: MisoString -> Locale -> MisoString 
-l key' locale = (\key -> ms $ HMap.lookupDefault key key locale) . T.pack $ unpack key'
