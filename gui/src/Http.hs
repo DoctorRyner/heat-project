@@ -9,12 +9,14 @@ import           Control.Monad.IO.Class      (liftIO)
 #endif
 import           Data.Aeson
 import qualified Data.ByteString.Char8       as BS
+import qualified Data.Text.Lazy              as TL
+import qualified Data.Text.Lazy.Encoding     as TLEncoding
 import           JSDOM.Custom.XMLHttpRequest as JSDOM hiding (error)
 import           Language.Javascript.JSaddle hiding (JSM)
 import           Miso
 import           Miso.String
 import           Types
-import           Utils (try)
+import           Utils                       (try)
 
 data Request response payload
     = GET
@@ -54,8 +56,8 @@ send = \case
             Right _ -> do
                 resRaw' <- valToStr =<< getResponse req
                 statusNum <- getStatus req
-                let resBS = BS.pack $ unpack resRaw'
-                case eitherDecodeStrict resBS of
+                let resBS = TLEncoding.encodeUtf8 $ TL.pack $ unpack resRaw'
+                case eitherDecode resBS of
                     Right res -> do
                         let isOk = Prelude.take 1 (show statusNum) == "2"
                         if isOk

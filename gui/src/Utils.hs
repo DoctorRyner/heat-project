@@ -58,6 +58,11 @@ fromResp :: Response response -> model -> (response -> model) -> Effect Event mo
 fromResp response model updator = case response of
     Ok resp         -> pure $ updator resp
     HttpError err _ -> model `withJS_` logJS err
+ 
+fromRespDebug :: Response response -> model -> (response -> JSM model) -> Effect Event model
+fromRespDebug response model updator = case response of
+    Ok resp         -> model `withJS` (updator resp >> pure NoEvent)
+    HttpError err _ -> model `withJS_` logJS err   
 
 uriToRouteString :: URI -> String
 uriToRouteString = eraseSlashAtPathEdges . uriPath where

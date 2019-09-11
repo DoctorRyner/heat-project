@@ -12,12 +12,12 @@ view model = div_ []
     [ maybeStyle model.files.normalizeCss
     , maybeStyle . Just $ Style.Global.css
     , View.Header.render model
+    , text $ l "about" model.locale
     , curRoute
     ]
-  where 
+  where
     curRoute = case uriToRouteString model.uri of
         ""               -> View.Content.render model
         "about"          -> "about page"
         "about/company"  -> "about company page"
         _                -> "404 page"
-    
