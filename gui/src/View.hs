@@ -18,7 +18,7 @@ view model = div_ []
                 $ map
                 (\x -> div_
                     [ class_ "menu-item-mob"
-                    , onClick $ changeRoute x.routePath model.uri
+                    , onClick $ Batch [PopOr, changeRoute x.routePath model.uri]
                     ] [label_ [class_ "menuMes"] [text x.label]]
                 ) menu
             ]
@@ -30,9 +30,9 @@ view model = div_ []
     curRoute = case uriToRouteString model.uri of
         ""               -> View.About.render model
 --            View.Content.render model
-        "about"          -> ""
+        "about"          -> 
        
---            View.About.render model
+            View.About.render model
         "planning"       -> text $ mshow model.uri 
         "montage"        -> text $ mshow model.uri 
         "individ-proj"   -> text $ mshow model.uri 

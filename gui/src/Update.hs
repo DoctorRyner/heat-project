@@ -1,8 +1,10 @@
 module Update where
 
+import           Data.Char
 import           Http
 import           Language.Javascript.JSaddle (valToBool)
 import           Miso
+import qualified Miso.String                 as MS
 import           Router.URI
 import           Types
 import           Utils
@@ -35,25 +37,30 @@ update model = \case
 
     -- Subscription event which updates screen info
     ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
-    
+
     SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
-    
+
     ChangeMob -> model `withJS` pure (DeviceUpdate Mobile)
-    
+
     SwitchArticleItem id_ ->
-        let switchArticleItem item = item { shouldShow = not item.shouldShow }   
-        in pure model 
-            { article = map 
+        let switchArticleItem item = item { shouldShow = not item.shouldShow }
+        in pure model
+            { article = map
                 (\item -> if item.id_ == id_
                     then switchArticleItem item
                     else item
-                ) model.article 
+                ) model.article
             }
---    pure model $ \art -> model { articleItem = model.articleItem { shouldShow = not shouldShow } }
---    pure model { model.articleItem { shouldShow = not shouldShow } } 
---        ObtainNormalizeCss resp -> fromResp resp model $ \file -> model { files = model.files { normalizeCss = Just file }
-    
+
+    NameInput newName -> pure model { name = newName }
+
+    PhoneInput newPhone -> pure model { phone = MS.filter (\x -> isDigit x || elem x ['+', ' ', '(', ')']) newPhone }
+
+    PopOr -> pure model { popOr = not model.popOr }
+
+    Batch events -> batchEff model $ map pure events
+
     -- Obtain Locale
     FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }
     ObtainLocale resp -> fromResp resp model $ \locale -> model { locale = locale }
-    
+

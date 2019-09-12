@@ -4,6 +4,7 @@ import           Clay        hiding (menu)
 import           Clay.Extra
 import qualified Data.Text   as T
 import           Miso.String hiding (center)
+import qualified Miso.String as MS
 import           Types       hiding (menu)
 
 css :: Model -> MisoString
@@ -18,12 +19,18 @@ css model = Miso.String.ms . render $ do
     contentStyleWall
     menuItemMob
     aboutInput
+    aboutInputContainer
+    aboutButton
+    headerButton
+    headerButtonMob
+    headerButtonLabel
 -- LABEL/TEXT STYLES
     helloMes
     buttonMes
     menuMes
     textWall
     titleHolder
+    aboutLabel
 -- LABEL/TEXT STYLES
     menuItem
     menuCont
@@ -46,7 +53,7 @@ css model = Miso.String.ms . render $ do
             then 70
             else 20
         height $ pct 80
-     
+
     buttonStyle = element ".butt" ? do
         backgroundColor "#FF6464"
         width $ pct $ if model.device == Mobile
@@ -55,7 +62,7 @@ css model = Miso.String.ms . render $ do
         height $ vh 10
         borderRadius1 90
         boxShadow' (px 0) (px 12) (px 15) (rgba 0 0 0 0.2 )
-        marginTop $ pct $ if model.device == Mobile 
+        marginTop $ pct $ if model.device == Mobile
             then 7
             else 3
         display flex
@@ -77,19 +84,94 @@ css model = Miso.String.ms . render $ do
         flexWrap wrapReverse
 
     aboutInput = element ".input" ? do
-        border solid (px 7) "#D7D7D7"
+        border solid (px 3) "#D7D7D7"
+        textAlign center
+        marginTop $ pct 2
+        fontSize $ em 1 @+@ vw 1
         width $ pct $ if model.device == Mobile
             then 100
             else 40
         height $ vh 6
-    
+
+    aboutButton = element ".about-butt" ? do
+        borderRadius1 90
+        backgroundColor $ if MS.length model.name > 3 && MS.length model.phone >= 8
+            then "#95FAA5"
+            else "#D7D7D7"
+        boxShadow' (px 0) (px 12) (px 15) (rgba 0 0 0 0.2)
+        display flex
+        justifyContent center
+        alignItems center
+        marginTop $ pct 2
+        border solid (px 3) $ if MS.length model.name > 3 && MS.length model.phone >= 8
+            then "#95FAA5"
+            else "#D7D7D7"
+--        fontSize $ em 1 @+@ vw 1.3
+        width $ pct $ if model.device == Mobile
+            then 100
+            else 40
+        height $ vh 8
+
+    aboutLabel = element ".about-label" ? do
+        textAlign center
+        color $ rgba 115 115 115 0.67
+        fontSize $ em 1 @+@ vw 0.7
+        width $ pct 90
+
+    aboutInputContainer = element ".input-cont" ? do
+        width $ pct 100
+        marginTop $ pct 10
+        paddingBottom $ px 50
+        display flex
+        flexDirection column
+        alignItems center
+        
+    contentStyleWall = element ".contentwall" ? do
+        width $ pct 100
+        display flex
+        transform $ translateY $ vh $ if model.popOr
+            then 12
+            else 24
+        alignItems center
+        flexDirection column
+        paddingBottom $ px 0        
+
+headerButtonMob :: Css
+headerButtonMob = element ".header-butt-mob" ? do
+    width $ pct 100
+    height $ vh 12
+    marginTop $ vh 12
+    textDecoration none
+    backgroundColor "#FF6464"
+    display flex
+    justifyContent center
+    alignItems center
+    position fixed
+
+headerButtonLabel :: Css
+headerButtonLabel = element ".header-butt-label" ? do
+    width $ pct 90
+    fontSize $ em 1 @+@ vw 0.7
+    textAlign center
+    color (rgba 255 255 255 0.67)
+
+headerButton :: Css
+headerButton = element ".header-butt" ? do
+    width $ pct 25
+    height $ pct 80
+    backgroundColor "#FF6464"
+    textDecoration none
+    display flex
+    justifyContent center
+    alignItems center
+    borderRadius1 20
+    position absolute
+    left $ pct 1
 
 titleHolder :: Css
 titleHolder = element ".title-holder" ? do
     width $ pct 100
     display flex
---    flexDirection flexStart
---    flexDirection $ start
 
 menuContWall :: Css
 menuContWall = element ".mcontw" ? do
@@ -97,7 +179,6 @@ menuContWall = element ".mcontw" ? do
     display flex
     flexDirection column
     alignItems center
---    position relative
 
 menuCont :: Css
 menuCont = element ".mcont" ? do
@@ -148,7 +229,6 @@ buttonMes = element ".buttMes" ? do
 helloMes :: Css
 helloMes = element ".hello" ? do
     fontSize $ em 1 @+@ vw 4
---    px 70
     marginTop $ pct 6
     color "#575757"
 
@@ -184,7 +264,7 @@ menuMob = element ".menuMob" ? do
     borderRadius1 5
     "backdrop-filter" -: "blur(32px)"
     transform $ translateY $ vh 12
-    zIndex 1000 
+    zIndex 1000
     position fixed
 
 menu :: Css
@@ -225,12 +305,3 @@ wrapperStyle = element ".wrapper" ? do
     display flex
     flexDirection column
     alignItems center
-
-contentStyleWall :: Css
-contentStyleWall = element ".contentwall" ? do
-    width $ pct 100
-    display flex
-    transform $ translateY $ vh 12
-    alignItems center
-    flexDirection column
-    paddingBottom $ px 0

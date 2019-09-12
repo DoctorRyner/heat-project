@@ -22,6 +22,14 @@ render model = div_ [class_ "header"] $
                         ) menu
                     else ""
                 ]
+            , a_ [class_ "header-butt", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
             ]
-        _ -> [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/PopUP.svg", onClick SwitchMenu] ]]
+        _ -> 
+            [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/PopUP.svg", onClick $ Batch [SwitchMenu, PopOr]]]
+            , case uriToRouteString model.uri of 
+                "" -> ""
+                _ -> if model.popOr
+                    then ""
+                    else a_ [class_ "header-butt-mob", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
+            ]
 

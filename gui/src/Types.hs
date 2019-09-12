@@ -25,6 +25,10 @@ data Event
     | SwitchMenu
     | ChangeMob
     | SwitchArticleItem Int
+    | NameInput MisoString
+    | PhoneInput MisoString
+    | PopOr
+    | Batch [Event]
 
 data Model = Model
     { files          :: Files
@@ -35,6 +39,9 @@ data Model = Model
     , locale         :: Locale
     , shouldShowMenu :: Bool
     , article        :: Article
+    , name           :: MisoString
+    , phone          :: MisoString
+    , popOr          :: Bool
     } deriving (Show, Eq)
 
 defaultModel :: Model
@@ -47,6 +54,9 @@ defaultModel = Model
     , locale   = HMap.empty
     , shouldShowMenu = False
     , article = article_
+    , name = ""
+    , phone = ""
+    , popOr = True
     }
 
 data Device
