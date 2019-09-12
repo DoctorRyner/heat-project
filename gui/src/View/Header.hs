@@ -30,7 +30,7 @@ render model = div_ [class_ "header"] $
             [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/popUP.svg", onClick $ Batch [SwitchMenu, PopOr]]]
             , case uriToRouteString model.uri of 
                 "" -> ""
-                _ -> if model.popOr
+                _  -> if model.popOr
                     then ""
                     else a_ [class_ "header-butt-mob", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
             ]

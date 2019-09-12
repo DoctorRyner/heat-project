@@ -12,10 +12,10 @@ import qualified View.ObogrevPloshadi
 import qualified View.ObogrevTruboprovoda
 
 view :: Model -> View Event
-view model = div_ []
+view model = div_ [ class_ "pageWrapper" ]
     [ maybeStyle model.files.normalizeCss
     , maybeStyle . Just $ Style.Global.css model
-    , if model.device == Mobile && model.shouldShowMenu
+    , if model.isMobile && model.shouldShowMenu
         then div_ []
             [ div_ [class_ "menuMob"]
                 $ map

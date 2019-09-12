@@ -35,6 +35,7 @@ data Model = Model
     { files          :: Files
     , uri            :: URI
     , device         :: Device
+    , isMobile       :: Bool
     , scHeight       :: Int
     , scWidth        :: Int
     , locale         :: Locale
@@ -51,6 +52,7 @@ defaultModel = Model
     { files    = Files { normalizeCss = Nothing }
     , uri      = URI "" Nothing "" "" ""
     , device   = PC
+    , isMobile = False
     , scHeight = 0
     , scWidth  = 0
     , locale   = HMap.empty

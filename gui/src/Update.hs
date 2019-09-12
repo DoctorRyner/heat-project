@@ -34,10 +34,16 @@ update model = \case
         pure $ if isMobile
             then DeviceUpdate $ if model.scHeight > model.scWidth then Mobile else MobileWide
             else DeviceUpdate PC
-    DeviceUpdate device -> pure model { device = device }
+    DeviceUpdate device -> pure model { device = device, isMobile = device `elem` [ Mobile, MobileWide ] }
 
     -- Subscription event which updates screen info
-    ScreenCheck (height, width) -> pure model { scHeight = height, scWidth = width }
+    ScreenCheck (height, width) -> pure model
+        { scHeight = height
+        , scWidth = width
+        , device  = if model.isMobile
+            then if height > width then Mobile else MobileWide
+            else PC
+        }
 
     SwitchMenu -> pure model { shouldShowMenu = not model.shouldShowMenu }
 

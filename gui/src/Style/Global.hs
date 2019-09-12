@@ -1,11 +1,13 @@
 module Style.Global where
 
-import           Clay        hiding (menu)
+import           Clay          hiding (menu)
 import           Clay.Extra
-import qualified Data.Text   as T
-import           Miso.String hiding (center)
-import qualified Miso.String as MS
-import           Types       hiding (menu)
+import           Control.Monad (when)
+import qualified Data.Text     as T
+import           Miso.String   hiding (center)
+import qualified Miso.String   as MS
+import           Types         hiding (menu)
+import           Utils
 
 css :: Model -> MisoString
 css model = Miso.String.ms . render $ do
@@ -24,10 +26,11 @@ css model = Miso.String.ms . render $ do
     headerButton
     headerButtonMob
     headerButtonLabel
+    pageWrapper
 -- LABEL/TEXT STYLES
-    helloMes
-    buttonMes
-    menuMes
+    helloMes model.device
+    buttonMes model.device
+    menuMes model.device
     textWall
     titleHolder
     aboutLabel
@@ -49,7 +52,7 @@ css model = Miso.String.ms . render $ do
 
   where
     mainImgStyle = element ".img" ? do
-        width $ pct $ if model.device == Mobile
+        width $ pct $ if model.device == Mobile && model.device /= MobileWide
             then 70
             else 20
         height $ pct 80
@@ -135,6 +138,8 @@ css model = Miso.String.ms . render $ do
         flexDirection column
         paddingBottom $ px 0
 
+    pageWrapper = element ".pageWrapper" ? when (uriToRouteString model.uri == "") (overflow hidden)
+
 headerButtonMob :: Css
 headerButtonMob = element ".header-butt-mob" ? do
     width $ pct 100
@@ -205,6 +210,7 @@ contentStyle = element ".content" ? do
     alignItems center
     flexDirection column
     position relative
+--    overflow hidden
 
 mainHeader :: Css
 mainHeader = element ".header" ? do
@@ -220,16 +226,19 @@ mainHeader = element ".header" ? do
     justifyContent center
     position fixed
 
-buttonMes :: Css
-buttonMes = element ".buttMes" ? do
-    fontSize $ em 0.3 @+@ vw 1.3
+buttonMes :: Device -> Css
+buttonMes device = element ".buttMes" ? do
+    fontSize $ em (if device == PC then 0.7 else 2) @+@ vw 1.3
+--    fontSize $ px 999
     color $ rgba 255 255 255 0.67
 
-helloMes :: Css
-helloMes = element ".hello" ? do
-    fontSize $ em 2 @+@ vw 4
+helloMes :: Device -> Css
+helloMes device = element ".hello" ? do
+    fontSize $ em (if device == MobileWide then 1.8 else 2.5) @+@ vw 4
     marginTop $ pct 3
+    textAlign center
     marginBottom $ pct 2.5
+    width $ pct 100
     color "#575757"
 
 menuItem :: Css
@@ -247,12 +256,11 @@ menuItem = element ".menu-item" ? do
 menuItemMob :: Css
 menuItemMob = element ".menu-item-mob" ? do
     width $ pct 100
-    height $ pct 25
+    height $ pct 20
     display flex
     justifyContent center
     alignItems center
     color "#414141"
-    fontSize $ px 20
     hover & backgroundColor (rgba 224 224 224 0.6)
     paddingBottom $ px 0
 
@@ -281,16 +289,17 @@ menu = element ".menu" ? do
     marginTop $ pct 100
     marginLeft $ pct 125
 
-menuMes :: Css
-menuMes = element ".menuMes" ? do
+menuMes :: Device -> Css
+menuMes device = element ".menuMes" ? do
     width $ pct 80
+    when (device == Mobile) $ fontSize $ em 1.5 @+@ vw 2
     textAlign start
 
 textWall :: Css
 textWall = element ".twall" ? do
     width $ pct 100
     height $ px 0
-    fontSize $ em 1 @+@ vw 0.7
+    fontSize $ em 1.5 @+@ vw 0.7
 
 elemWallCont :: Css
 elemWallCont = element ".ewallc" ? do
