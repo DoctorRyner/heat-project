@@ -228,8 +228,14 @@ mainHeader = element ".header" ? do
 
 buttonMes :: Device -> Css
 buttonMes device = element ".buttMes" ? do
-    fontSize $ em (if device == PC then 0.7 else 2) @+@ vw 1.3
---    fontSize $ px 999
+    fontSize $ em
+        (case device of
+            PC         -> 0.7
+            Mobile     -> 2
+            MobileWide -> 0.5
+        )
+        @+@
+        vw 1.3
     color $ rgba 255 255 255 0.67
 
 helloMes :: Device -> Css
@@ -292,7 +298,7 @@ menu = element ".menu" ? do
 menuMes :: Device -> Css
 menuMes device = element ".menuMes" ? do
     width $ pct 80
-    when (device == Mobile) $ fontSize $ em 1.5 @+@ vw 2
+    when (device `elem` [ Mobile, MobileWide ]) $ fontSize $ em 1.5 @+@ vw 2
     textAlign start
 
 textWall :: Css

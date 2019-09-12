@@ -6,10 +6,15 @@ import Utils
 --import 
 
 render :: Model -> View Event
-render model =
-    div_ [class_ "content"]
-        [ label_ [class_ "hello"] [text "ПРИВЕТСТВЕННАЯ ФРАЗА!"]
-        , div_ [class_ "butt", onClick $ changeRoute "obogrev-krovli" model.uri] [label_ [class_ "buttMes"] [text "ОБОГРЕВ КРОВЛИ"]]
-        , div_ [class_ "butt", onClick $ changeRoute "obogrev-ploshadi" model.uri] [label_ [class_ "buttMes"] [text "ОБОГРЕВ ПЛОЩАДОК" ]]
-        , div_ [class_ "butt", onClick $ changeRoute "obogrev-truboprovoda" model.uri] [label_ [class_ "buttMes"] [text "ОБОГРЕВ ТРЕБОПРОВОДА"]]
+render model = div_ [class_ "content"]
+    [ label_ [class_ "hello"] [text $ "welcomePhrase" <-- model.locale ]
+    , sukaBlator "welcomePageObogrevKrovliBtn" "obogrev-krovli"
+    , sukaBlator "welcomePageObogrevPloshadiBtn" "obogrev-ploshadi"
+    , sukaBlator "welcomePageObogrevTruboprovodaBtn" "obogrev-krovli"
+    ]
+  where
+    sukaBlator txt route = div_
+        [ class_ "butt"
+        , onClick $ changeRoute route model.uri
         ]
+        [ label_ [class_ "buttMes"] [text $ txt <-- model.locale] ]

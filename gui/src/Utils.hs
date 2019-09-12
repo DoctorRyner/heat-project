@@ -74,7 +74,7 @@ uriToRouteString = eraseSlashAtPathEdges . uriPath where
 
 -- Extract value from locale
 fromLocale :: MisoString -> Locale -> MisoString
-fromLocale key' locale = (\key -> ms $ HMap.lookupDefault key key locale) . T.pack $ unpack key'
+fromLocale key' locale = (\key -> ms $ HMap.lookupDefault "" key locale) . T.pack $ unpack key'
 
 (<--) :: MisoString -> Locale -> MisoString
 (<--) = fromLocale
