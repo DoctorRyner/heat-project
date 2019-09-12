@@ -4,7 +4,8 @@ import           Data.Aeson
 import qualified Data.HashMap.Strict as HMap
 import qualified Data.Text           as T
 import           GHC.Generics
-import           Miso.String
+import           Miso.String         (MisoString)
+import qualified Miso.String         as MS
 import           Network.URI
 import           Prelude             hiding (id)
 
@@ -23,17 +24,17 @@ data Event
     | ObtainLocale (Response Locale)
     | SwitchMenu
     | ChangeMob
---    | SwitchArticle
+    | SwitchArticleItem Int
 
 data Model = Model
-    { files             :: Files
-    , uri               :: URI
-    , device            :: Device
-    , scHeight          :: Int
-    , scWidth           :: Int
-    , locale            :: Locale
-    , shouldShowMenu    :: Bool
---    , articleItems :: ArticleItem
+    { files          :: Files
+    , uri            :: URI
+    , device         :: Device
+    , scHeight       :: Int
+    , scWidth        :: Int
+    , locale         :: Locale
+    , shouldShowMenu :: Bool
+    , article        :: Article
     } deriving (Show, Eq)
 
 defaultModel :: Model
@@ -45,7 +46,7 @@ defaultModel = Model
     , scWidth  = 0
     , locale   = HMap.empty
     , shouldShowMenu = False
---    , articleItem = ArticleItem { shouldShow = True}
+    , article = article_
     }
 
 data Device
@@ -80,22 +81,27 @@ menu =
     , MenuItem "individ-proj" "Индивидуальный проект"
     ]
 
-data ArticleItem = ArticleItem 
+data ArticleItem = ArticleItem
     { title, text_ :: MisoString
-    , shouldShow :: Bool
-    ,  imgs :: [MisoString] 
-    } 
+    , shouldShow   :: Bool
+    , imgs         :: [MisoString]
+    , id_          :: Int
+    } deriving (Show, Eq)
 
 type Article = [ArticleItem]
 
-article :: Article
-article =
-    [ ArticleItem "okrovliTitle"  "okrovliText"  True  [ "static/img/okrovla.jpg"  ]
-    , ArticleItem "ovoronkiTitle" "ovoronkiText" False [ "static/img/ovoronka.jpg" ]
-    , ArticleItem "ovodaTitle"    "ovodaText"    False [ "static/img/ovoda1.jpg" 
-                                                       , "static/img/ovoda2.jpg"   ]
-    , ArticleItem "okaplaTitle"   "okaplaText"   False [ "static/img/okapla.jpg"   ]
-    , ArticleItem "okrayTitle"    "okrayText"    False [ "static/img/okray.jpg"    ]
-    , ArticleItem "oendoTitle"    "oendoText"    False [ "static/img/oendo.jpg"    ]
-    , ArticleItem "oglassTitle"   "oglassText"   False [ "static/img/oglass.jpg"   ]
-    ]
+article_ :: Article
+article_ = (head mkArticle) {shouldShow = True} : tail mkArticle
+  where
+    mkItem :: MisoString -> MisoString -> [MisoString] -> Int -> ArticleItem
+    mkItem title text_ = ArticleItem title text_ False
+    articlesInfo =
+        [ ("okrovliTitle", "okrovliText", ["static/img/okrovla.jpg"])
+        , ("ovoronkiTitle", "ovoronkiText", ["static/img/ovoronka.jpg"])
+        , ("ovodaTitle", "ovodaText", ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"])
+        , ("okaplaTitle", "okaplaText", ["static/img/okapla.jpg"])
+        , ("okrayTitle", "okrayText", ["static/img/okray.jpg"])
+        , ("oendoTitle", "oendoText", ["static/img/oendo.jpg"])
+        , ("oglassTitle", "oglassText", ["static/img/oglass.jpg"])
+        ]
+    mkArticle = map (\((t, tex, imgs), id) -> mkItem t tex imgs id) $ zip articlesInfo [0 .. length articlesInfo]

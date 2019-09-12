@@ -40,12 +40,18 @@ update model = \case
     
     ChangeMob -> model `withJS` pure (DeviceUpdate Mobile)
     
---    SwitchArticle -> 
+    SwitchArticleItem id_ ->
+        let switchArticleItem item = item { shouldShow = not item.shouldShow }   
+        in pure model 
+            { article = map 
+                (\item -> if item.id_ == id_
+                    then switchArticleItem item
+                    else item
+                ) model.article 
+            }
 --    pure model $ \art -> model { articleItem = model.articleItem { shouldShow = not shouldShow } }
 --    pure model { model.articleItem { shouldShow = not shouldShow } } 
-    
---        ObtainNormalizeCss resp -> fromResp resp model $ \file -> model { files = model.files { normalizeCss = Just file } }
-
+--        ObtainNormalizeCss resp -> fromResp resp model $ \file -> model { files = model.files { normalizeCss = Just file }
     
     -- Obtain Locale
     FetchLocale       -> withJS model $ ObtainLocale <$> Http.send get { url = "static/locale/ru.json" }

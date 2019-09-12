@@ -17,6 +17,7 @@ css model = Miso.String.ms . render $ do
     wrapperStyle
     contentStyleWall
     menuItemMob
+    aboutInput
 -- LABEL/TEXT STYLES
     helloMes
     buttonMes
@@ -60,7 +61,29 @@ css model = Miso.String.ms . render $ do
         display flex
         alignItems center
         justifyContent center
-        
+
+    imgWall = element ".iwall" ? do
+        width $ pct $ if model.device == Mobile
+            then 100
+            else 40
+        height $ vh 30
+        margin (pct 1) (pct 1) (pct 1) (pct 1)
+
+    imgWallCont = element ".iwallc" ? do
+        width $ pct 100
+        display flex
+        justifyContent center
+        flexDirection row
+        flexWrap wrapReverse
+
+    aboutInput = element ".input" ? do
+        border solid (px 7) "#D7D7D7"
+        width $ pct $ if model.device == Mobile
+            then 100
+            else 40
+        height $ vh 6
+    
+
 titleHolder :: Css
 titleHolder = element ".title-holder" ? do
     width $ pct 100
@@ -88,7 +111,8 @@ menuCont = element ".mcont" ? do
 mainImgStylePop :: Css
 mainImgStylePop = element ".imgPop" ? do
     height $ pct 100
-    zIndex 1001 
+    zIndex 1200
+    position relative
     backgroundSize cover
 
 contentStyle :: Css
@@ -96,11 +120,12 @@ contentStyle = element ".content" ? do
     width $ pct 100
     height $ vh 88
     transform $ translateY $ vh 6
-    zIndex 1000
+    zIndex 100
     display flex
     alignItems center
     flexDirection column
-    
+    position relative
+
 mainHeader :: Css
 mainHeader = element ".header" ? do
     backgroundColor "#ffffff"
@@ -111,7 +136,7 @@ mainHeader = element ".header" ? do
     display flex
     flexDirection row
     alignItems center
-    zIndex 1000
+    zIndex 1100
     justifyContent center
     position fixed
 
@@ -124,7 +149,7 @@ helloMes :: Css
 helloMes = element ".hello" ? do
     fontSize $ em 1 @+@ vw 4
 --    px 70
-    marginTop $ pct 4
+    marginTop $ pct 6
     color "#575757"
 
 menuItem :: Css
@@ -186,44 +211,20 @@ textWall = element ".twall" ? do
     width $ pct 100
     height $ px 0
     fontSize $ em 1 @+@ vw 0.7
---    paddingBottom $ px 0
---    textAlign start
-
-imgWallCont :: Css
-imgWallCont = element ".iwallc" ? do
-    width $ pct 100
-    display flex
-    justifyContent center
-    flexDirection row
-
-imgWall :: Css
-imgWall = element ".iwall" ? do
-    width $ pct 40
-    height $ vh 30
-    margin (pct 1) (pct 1) (pct 1) (pct 1)
-
---    backgroundSize contain
 
 elemWallCont :: Css
 elemWallCont = element ".ewallc" ? do
     width $ pct 80
---    height $ px 0
     display flex
     flexDirection column
---    justifyContent flexStart
---    paddingBottom $ px 0
---    alignItems center
---    overflow scroll
 
 wrapperStyle :: Css
 wrapperStyle = element ".wrapper" ? do
     width $ pct 100
---    height $ px 0
     marginTop $ pct 3
     display flex
     flexDirection column
     alignItems center
---    paddingBottom $ px 0
 
 contentStyleWall :: Css
 contentStyleWall = element ".contentwall" ? do

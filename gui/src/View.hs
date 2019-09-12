@@ -28,12 +28,11 @@ view model = div_ []
     ]
   where
     curRoute = case uriToRouteString model.uri of
-        ""               -> 
---        View.About.render model
-            View.Content.render model
-        "about"          -> 
+        ""               -> View.About.render model
+--            View.Content.render model
+        "about"          -> ""
        
-            View.About.render model
+--            View.About.render model
         "planning"       -> text $ mshow model.uri 
         "montage"        -> text $ mshow model.uri 
         "individ-proj"   -> text $ mshow model.uri 
