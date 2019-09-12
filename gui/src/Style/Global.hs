@@ -240,7 +240,7 @@ buttonMes device = element ".buttMes" ? do
 
 helloMes :: Device -> Css
 helloMes device = element ".hello" ? do
-    fontSize $ em (if device == MobileWide then 1.8 else 2.5) @+@ vw 4
+    fontSize $ em 1.4 @+@ vw 4
     marginTop $ pct 3
     textAlign center
     marginBottom $ pct 2.5

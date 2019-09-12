@@ -12,7 +12,10 @@ render title model = div_ [class_ "contentwall"]
             [ div_  [class_ "title-holder"]
                 [ label_
                     [class_ "hello", onClick $ ChangeArchiveArticle title item.id_ ] --SwitchArticleItem item.id_]
-                    [text $ item.title <-- model.locale]
+                    [ text $ item.title <-- model.locale <> if item.shouldShow
+                        then " (свернуть)"
+                        else " (показать)"
+                    ]
                 ]
             , div_  [] 
                 [ if item.shouldShow
