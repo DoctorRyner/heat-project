@@ -1,3 +1,6 @@
+let:
+- buildPath: ~/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+
 gui-test: |
   cd gui
   stack build record-dot-preprocessor --copy-compiler-tool
@@ -11,8 +14,8 @@ gui-build-test-ghc: |
 gui-build-test: |
   sae gui-build
   cd gui
-  cp -r static ~/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
-  cd ~/git/heat-project/dist-newstyle/build/x86_64-linux/ghcjs-8.6.0.1/gui-0.1/x/gui/build/gui/gui.jsexe
+  cp -r static <buildPath>
+  cd <buildPath>
   python -m SimpleHTTPServer
 
 gui-build: |
@@ -23,3 +26,7 @@ gui-build: |
 
   export PATH=$PATH:$COMPILER_TOOLS
   cabal new-build all --project=cabal-ghcjs.project
+
+deploy: |
+  sae gui-build
+  scp -r <buildPath>/* remote@taet-led.com:~/website/
