@@ -10,7 +10,7 @@ render model = div_ [class_ "contentwall"]
         (\item -> div_ [class_ "wrapper"]
             [ div_  [class_ "title-holder"]
                 [ label_
-                    [class_ "hello", onClick $ SwitchArticleItem item.id_]
+                    [class_ "hello", onClick $ ChangeArchiveArticle "obogrev-krovli" item.id_ ] --SwitchArticleItem item.id_]
                     [text $ item.title <-- model.locale]
                 ]
             , div_  [] 
@@ -26,7 +26,7 @@ render model = div_ [class_ "contentwall"]
                     $ map (\img -> img_ [class_ "iwall", src_ img]) item.imgs
                 else ""
             ]
-        ) model.article
+        ) (findArticle "obogrev-krovli" model.archive)
         ++
         [ div_ [class_ "input-cont"]
             [ input_ [class_ "input", placeholder_ "Имя*", onInput NameInput ]

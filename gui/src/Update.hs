@@ -1,6 +1,7 @@
 module Update where
 
 import           Data.Char
+import           Data.Coerce                 (coerce)
 import           Http
 import           Language.Javascript.JSaddle (valToBool)
 import           Miso
@@ -51,6 +52,18 @@ update model = \case
                     else item
                 ) model.article
             }
+
+    ChangeArchiveArticle name id' ->
+        let changeArticle = map
+                (\item -> if item.id_ == id'
+                    then item { shouldShow = not item.shouldShow }
+                    else item
+                )
+            newArchive = Archive $ map
+                (\(title, article) -> (title, if title == name then changeArticle article else article)
+                )
+                (coerce model.archive)
+        in pure model { archive = newArchive }
 
     NameInput newName -> pure model { name = newName }
 

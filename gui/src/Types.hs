@@ -25,6 +25,7 @@ data Event
     | SwitchMenu
     | ChangeMob
     | SwitchArticleItem Int
+    | ChangeArchiveArticle MisoString Int
     | NameInput MisoString
     | PhoneInput MisoString
     | PopOr
@@ -39,6 +40,7 @@ data Model = Model
     , locale         :: Locale
     , shouldShowMenu :: Bool
     , article        :: Article
+    , archive        :: Archive
     , name           :: MisoString
     , phone          :: MisoString
     , popOr          :: Bool
@@ -54,6 +56,7 @@ defaultModel = Model
     , locale   = HMap.empty
     , shouldShowMenu = False
     , article = article_
+    , archive = defaultArchive
     , name = ""
     , phone = ""
     , popOr = False
@@ -100,11 +103,38 @@ data ArticleItem = ArticleItem
 
 type Article = [ArticleItem]
 
+newtype Archive = Archive [(MisoString, Article)] deriving (Show, Eq)
+
+mkItem :: MisoString -> MisoString -> [MisoString] -> Int -> ArticleItem
+mkItem title text_ = ArticleItem title text_ False
+
+defaultArchive :: Archive
+defaultArchive = Archive
+    [ mkArticle "obogrev-krovli"
+        [ ("okrovliTitle", "okrovliText", ["static/img/okrovla.jpg"])
+        , ("ovoronkiTitle", "ovoronkiText", ["static/img/ovoronka.jpg"])
+        , ("ovodaTitle", "ovodaText", ["static/img/ovoda1.jpg", "static/img/ovoda2.jpg"])
+        , ("okaplaTitle", "okaplaText", ["static/img/okapla.jpg"])
+        , ("okrayTitle", "okrayText", ["static/img/okray.jpg"])
+        , ("oendoTitle", "oendoText", ["static/img/oendo.jpg"])
+        , ("oglassTitle", "oglassText", ["static/img/oglass.jpg"])
+        ]
+    ]
+
+findArticle :: MisoString -> Archive -> Article
+findArticle _    (Archive [])                    = []
+findArticle name (Archive ((title, article):xs)) = if title == name
+    then article
+    else findArticle name $ Archive xs
+
+mkArticle :: MisoString -> [(MisoString, MisoString, [MisoString])] -> (MisoString, Article)
+mkArticle name articlesInfo = (name, (head result) {shouldShow = True} : tail result)
+  where
+    result = map (\((t, tex, imgs), id) -> mkItem t tex imgs id) $ zip articlesInfo [0 .. length articlesInfo]
+
 article_ :: Article
 article_ = (head mkArticle) {shouldShow = True} : tail mkArticle
   where
-    mkItem :: MisoString -> MisoString -> [MisoString] -> Int -> ArticleItem
-    mkItem title text_ = ArticleItem title text_ False
     articlesInfo =
         [ ("okrovliTitle", "okrovliText", ["static/img/okrovla.jpg"])
         , ("ovoronkiTitle", "ovoronkiText", ["static/img/ovoronka.jpg"])
