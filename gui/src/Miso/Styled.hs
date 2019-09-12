@@ -57,6 +57,17 @@ toUnstyled tree = Miso.div_ []
     cssHash   = HMap.fromList (map (\(css, id') -> (render css, id')) cssKeyed)
     cssKeyed  = map (, rnd ()) css
     css       = nub $ collectCss tree
+    
+toUnstyled' :: View a -> [Miso.View a]
+toUnstyled' tree = [ Miso.nodeHtml "style" [] [ Miso.text $ ms $ mconcat $ map render renderCss ]
+                   , generateHtml cssHash (ms uniqId) tree
+                   ]
+  where
+    uniqId    = T.pack $ show $ rnd ()
+    renderCss = map (\(css, id') -> element ("._" <> uniqId <> T.pack (show id')) ? css) cssKeyed
+    cssHash   = HMap.fromList (map (\(css, id') -> (render css, id')) cssKeyed)
+    cssKeyed  = map (, rnd ()) css
+    css       = nub $ collectCss tree
 
 text :: MisoString -> VTree a
 text = VText
