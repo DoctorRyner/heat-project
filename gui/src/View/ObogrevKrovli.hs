@@ -1,16 +1,17 @@
 module View.ObogrevKrovli where
 
 import           Miso  hiding (menu)
+import           Miso.String (MisoString)
 import           Types hiding (menu)
 import           Utils
 
-render :: Model -> View Event
-render model = div_ [class_ "contentwall"]
+render :: MisoString -> Model -> View Event
+render title model = div_ [class_ "contentwall"]
     [ div_ [class_ "ewallc"] $ map
         (\item -> div_ [class_ "wrapper"]
             [ div_  [class_ "title-holder"]
                 [ label_
-                    [class_ "hello", onClick $ ChangeArchiveArticle "obogrev-krovli" item.id_ ] --SwitchArticleItem item.id_]
+                    [class_ "hello", onClick $ ChangeArchiveArticle title item.id_ ] --SwitchArticleItem item.id_]
                     [text $ item.title <-- model.locale]
                 ]
             , div_  [] 
@@ -26,7 +27,7 @@ render model = div_ [class_ "contentwall"]
                     $ map (\img -> img_ [class_ "iwall", src_ img]) item.imgs
                 else ""
             ]
-        ) (findArticle "obogrev-krovli" model.archive)
+        ) (findArticle title model.archive)
         ++
         [ div_ [class_ "input-cont"]
             [ input_ [class_ "input", placeholder_ "Имя*", onInput NameInput ]

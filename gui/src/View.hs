@@ -37,7 +37,7 @@ view model = div_ []
         "montage"        -> text $ mshow model.uri 
         "individ-proj"   -> text $ mshow model.uri 
         "about/company"  -> "about company page"
-        "obogrev-krovli" -> View.ObogrevKrovli.render model
+        "obogrev-krovli" -> View.ObogrevKrovli.render "obogrev-krovli" model
         "obogrev-truboprovoda" -> View.ObogrevTruboprovoda.render model
-        "obogrev-ploshadi" -> View.ObogrevPloshadi.render model
+        "obogrev-ploshadi" -> View.ObogrevKrovli.render "obogrev-ploshadi" model
         _                -> "404 page"

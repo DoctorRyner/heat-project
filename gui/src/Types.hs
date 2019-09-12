@@ -108,6 +108,9 @@ newtype Archive = Archive [(MisoString, Article)] deriving (Show, Eq)
 mkItem :: MisoString -> MisoString -> [MisoString] -> Int -> ArticleItem
 mkItem title text_ = ArticleItem title text_ False
 
+jpg :: MisoString -> MisoString
+jpg name = "static/img/" <> name <> ".jpg"
+
 defaultArchive :: Archive
 defaultArchive = Archive
     [ mkArticle "obogrev-krovli"
@@ -118,6 +121,9 @@ defaultArchive = Archive
         , ("okrayTitle", "okrayText", ["static/img/okray.jpg"])
         , ("oendoTitle", "oendoText", ["static/img/oendo.jpg"])
         , ("oglassTitle", "oglassText", ["static/img/oglass.jpg"])
+        ]
+    , mkArticle "obogrev-ploshadi"
+        [ ("oploshadiTitle", "oploshadiText", [ jpg "oploshadi1", jpg "oploshadi2" ])
         ]
     ]
 
