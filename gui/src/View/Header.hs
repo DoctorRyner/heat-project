@@ -11,7 +11,7 @@ render model = div_ [class_ "header"] $
     arg = case model.device of
         PC ->
             [ div_  [class_ "mcont"]
-                [ img_ [class_ "imgPop", src_ "static/img/PopUP.svg", onClick SwitchMenu]
+                [ img_ [class_ "imgPop", src_ "static/img/popUP.svg", onClick SwitchMenu]
                 , if model.shouldShowMenu
                     then div_ [class_ "menu"]
                         $ map
@@ -27,7 +27,7 @@ render model = div_ [class_ "header"] $
              _  -> a_ [class_ "header-butt", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
             ]
         _ -> 
-            [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/PopUP.svg", onClick $ Batch [SwitchMenu, PopOr]]]
+            [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/popUP.svg", onClick $ Batch [SwitchMenu, PopOr]]]
             , case uriToRouteString model.uri of 
                 "" -> ""
                 _ -> if model.popOr
