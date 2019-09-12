@@ -29,4 +29,5 @@ gui-build: |
 
 deploy: |
   sae gui-build
+  cp -r static <buildPath>
   scp -r <buildPath>/* remote@taet-led.com:~/website/
