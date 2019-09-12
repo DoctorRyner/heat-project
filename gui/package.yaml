@@ -39,7 +39,8 @@ library:
   when:
   - condition: impl(ghcjs)
     then:
-      dependencies: ghcjs-base
+      dependencies:
+      - ghcjs-base
     else:
       dependencies:
       - warp
