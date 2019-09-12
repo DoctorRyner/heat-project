@@ -17,12 +17,14 @@ render model = div_ [class_ "header"] $
                         $ map
                         (\x -> div_
                             [ class_ "menu-item"
-                            , onClick $ changeRoute x.routePath model.uri
+                            , onClick $ Batch [PopOr, SwitchMenu, changeRoute x.routePath model.uri]
                             ] [label_ [class_ "menuMes"] [text x.label]]
                         ) menu
                     else ""
                 ]
-            , a_ [class_ "header-butt", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
+            , case uriToRouteString model.uri of 
+             "" -> ""
+             _  -> a_ [class_ "header-butt", href_ "#bottom"] [label_ [class_ "header-butt-label"] [text "ОСТАВИТЬ ЗАЯВКУ"]]
             ]
         _ -> 
             [ div_ [class_ "mcont"] [ img_ [class_ "imgPop", src_ "static/img/PopUP.svg", onClick $ Batch [SwitchMenu, PopOr]]]

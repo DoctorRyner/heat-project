@@ -200,7 +200,7 @@ contentStyle :: Css
 contentStyle = element ".content" ? do
     width $ pct 100
     height $ vh 88
-    transform $ translateY $ vh 6
+    transform $ translateY $ vh 12
     zIndex 100
     display flex
     alignItems center

@@ -7,6 +7,9 @@ import           Utils
 import qualified View.Header
 import qualified View.Content
 import qualified View.About
+import qualified View.ObogrevKrovli
+import qualified View.ObogrevPloshadi
+import qualified View.ObogrevTruboprovoda
 
 view :: Model -> View Event
 view model = div_ []
@@ -18,7 +21,7 @@ view model = div_ []
                 $ map
                 (\x -> div_
                     [ class_ "menu-item-mob"
-                    , onClick $ Batch [PopOr, changeRoute x.routePath model.uri]
+                    , onClick $ Batch [PopOr, SwitchMenu, changeRoute x.routePath model.uri]
                     ] [label_ [class_ "menuMes"] [text x.label]]
                 ) menu
             ]
@@ -28,13 +31,13 @@ view model = div_ []
     ]
   where
     curRoute = case uriToRouteString model.uri of
-        ""               -> View.About.render model
---            View.Content.render model
-        "about"          -> 
-       
-            View.About.render model
+        ""               -> View.Content.render model
+        "about"          -> View.About.render model
         "planning"       -> text $ mshow model.uri 
         "montage"        -> text $ mshow model.uri 
         "individ-proj"   -> text $ mshow model.uri 
         "about/company"  -> "about company page"
+        "obogrev-krovli" -> View.ObogrevKrovli.render model
+        "obogrev-truboprovoda" -> View.ObogrevTruboprovoda.render model
+        "obogrev-ploshadi" -> View.ObogrevPloshadi.render model
         _                -> "404 page"

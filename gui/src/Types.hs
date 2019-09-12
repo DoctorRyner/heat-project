@@ -56,7 +56,7 @@ defaultModel = Model
     , article = article_
     , name = ""
     , phone = ""
-    , popOr = True
+    , popOr = False
     }
 
 data Device
