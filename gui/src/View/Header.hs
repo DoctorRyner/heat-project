@@ -6,7 +6,7 @@ import Utils
 
 render :: Model -> View Event
 render model = div_ [class_ "header"] $
-    img_ [class_ "img", src_ "static/img/logo.png"] : arg
+    img_ [class_ "img", src_ "static/img/logo.png", onClick $ changeRoute "" model.uri] : arg
   where
     arg = case model.device of
         PC ->

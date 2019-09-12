@@ -125,6 +125,21 @@ defaultArchive = Archive
     , mkArticle "obogrev-ploshadi"
         [ ("oploshadiTitle", "oploshadiText", [ jpg "oploshadi1", jpg "oploshadi2" ])
         ]
+    , mkArticle "obogrev-truboprovoda"
+        [ ("otruboprovodaTitle", "otruboprovodaText", [ jpg "otruboprovoda1" ])
+        ]
+    , mkArticle "about"
+        [ ("aboutTitle", "aboutText", [])
+        ]
+    , mkArticle "montage"
+        [ ("montageTitle", "montageText", [ jpg "montage1" ])
+        ]
+    , mkArticle "planning"
+        [ ("planningTitle", "planningText", [ jpg "planning1", jpg "planning2" ])
+        ]
+    , mkArticle "individ-proj"
+        [ ("individ-projTitle", "individ-projText", [])
+        ]
     ]
 
 findArticle :: MisoString -> Archive -> Article

@@ -72,9 +72,10 @@ css model = Miso.String.ms . render $ do
     imgWall = element ".iwall" ? do
         width $ pct $ if model.device == Mobile
             then 100
-            else 40
+            else 45
+        borderRadius1 55
         height $ vh 30
-        margin (pct 1) (pct 1) (pct 1) (pct 1)
+        margin (pct 2) (pct 1) (pct 1) (pct 1)
 
     imgWallCont = element ".iwallc" ? do
         width $ pct 100
@@ -120,21 +121,19 @@ css model = Miso.String.ms . render $ do
 
     aboutInputContainer = element ".input-cont" ? do
         width $ pct 100
-        marginTop $ pct 10
+        marginTop $ pct 5
         paddingBottom $ px 50
         display flex
         flexDirection column
         alignItems center
-        
+
     contentStyleWall = element ".contentwall" ? do
         width $ pct 100
         display flex
-        transform $ translateY $ vh $ if model.popOr
-            then 12
-            else 24
+        transform $ translateY $ vh $ if model.device == PC || model.popOr then 12 else 24
         alignItems center
         flexDirection column
-        paddingBottom $ px 0        
+        paddingBottom $ px 0
 
 headerButtonMob :: Css
 headerButtonMob = element ".header-butt-mob" ? do
@@ -228,8 +227,9 @@ buttonMes = element ".buttMes" ? do
 
 helloMes :: Css
 helloMes = element ".hello" ? do
-    fontSize $ em 1 @+@ vw 4
-    marginTop $ pct 6
+    fontSize $ em 2 @+@ vw 4
+    marginTop $ pct 3
+    marginBottom $ pct 2.5
     color "#575757"
 
 menuItem :: Css

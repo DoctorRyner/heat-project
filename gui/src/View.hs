@@ -4,9 +4,9 @@ import           Miso
 import qualified Style.Global
 import           Types
 import           Utils
-import qualified View.Header
-import qualified View.Content
 import qualified View.About
+import qualified View.Content
+import qualified View.Header
 import qualified View.ObogrevKrovli
 import qualified View.ObogrevPloshadi
 import qualified View.ObogrevTruboprovoda
@@ -15,8 +15,8 @@ view :: Model -> View Event
 view model = div_ []
     [ maybeStyle model.files.normalizeCss
     , maybeStyle . Just $ Style.Global.css model
-    , if model.device == Mobile && model.shouldShowMenu 
-        then div_ [] 
+    , if model.device == Mobile && model.shouldShowMenu
+        then div_ []
             [ div_ [class_ "menuMob"]
                 $ map
                 (\x -> div_
@@ -31,13 +31,12 @@ view model = div_ []
     ]
   where
     curRoute = case uriToRouteString model.uri of
-        ""               -> View.Content.render model
-        "about"          -> View.About.render model
-        "planning"       -> text $ mshow model.uri 
-        "montage"        -> text $ mshow model.uri 
-        "individ-proj"   -> text $ mshow model.uri 
-        "about/company"  -> "about company page"
-        "obogrev-krovli" -> View.ObogrevKrovli.render "obogrev-krovli" model
-        "obogrev-truboprovoda" -> View.ObogrevTruboprovoda.render model
-        "obogrev-ploshadi" -> View.ObogrevKrovli.render "obogrev-ploshadi" model
-        _                -> "404 page"
+        ""                     -> View.Content.render model
+        "about"                -> View.ObogrevKrovli.render "about" model
+        "planning"             -> View.ObogrevKrovli.render "planning" model
+        "montage"              -> View.ObogrevKrovli.render "montage" model
+        "individ-proj"         -> View.ObogrevKrovli.render "individ-proj" model
+        "obogrev-krovli"       -> View.ObogrevKrovli.render "obogrev-krovli" model
+        "obogrev-truboprovoda" -> View.ObogrevKrovli.render "obogrev-truboprovoda" model
+        "obogrev-ploshadi"     -> View.ObogrevKrovli.render "obogrev-ploshadi" model
+        _                      -> "404 page"
