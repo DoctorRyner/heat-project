@@ -204,11 +204,9 @@ mainImgStylePop = element ".imgPop" ? do
     backgroundSize cover
 
 contentStyle :: Device -> Css
-contentStyle device = element ".content" ? do
+contentStyle _device = element ".content" ? do
     width $ pct 100
-    if device == PC
-        then height $ px 1280
-        else height $ vh 88
+    height $ vh 88
     transform $ translateY $ vh 12
     zIndex 100
     display flex
@@ -310,6 +308,7 @@ textWall :: Device -> Css
 textWall device = element ".twall" ? do
     width $ pct 100
     height $ px 0
+    "white-space" -: "pre-wrap"
     fontSize $ em (if device == Mobile then 2 else 1.5) @+@ vw 0.7
 
 elemWallCont :: Css

@@ -31,7 +31,10 @@ render title model = div_ [class_ "contentwall"]
                 else ""
             ]
         ) (findArticle title model.archive)
-        ++
+        ++ (if title == "about" then [""] else forma)
+    ]
+  where
+    forma =
         [ div_ [class_ "input-cont"]
             [ input_ [class_ "input", placeholder_ "Имя*", onInput NameInput ]
             , input_ [class_ "input", placeholder_ "Телефон*", onInput PhoneInput ]
@@ -41,4 +44,3 @@ render title model = div_ [class_ "contentwall"]
                 ]
             ]
         ]
-    ]

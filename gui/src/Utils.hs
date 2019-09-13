@@ -78,3 +78,7 @@ fromLocale key' locale = (\key -> ms $ HMap.lookupDefault "" key locale) . T.pac
 
 (<--) :: MisoString -> Locale -> MisoString
 (<--) = fromLocale
+
+--textBraker :: MisoString -> View a
+--textBraker txt = label_ [] $ map
+--    ()
