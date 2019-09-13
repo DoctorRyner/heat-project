@@ -13,7 +13,7 @@ css :: Model -> MisoString
 css model = Miso.String.ms . render $ do
     body ? pure ()
     mainHeader
-    contentStyle
+    contentStyle model.device
     buttonStyle
     menuContWall
     elemWallCont
@@ -63,6 +63,8 @@ css model = Miso.String.ms . render $ do
             then 80
             else 30
         height $ vh 10
+        minHeight $ px 70
+        minWidth $ px 100
         borderRadius1 90
         boxShadow' (px 0) (px 12) (px 15) (rgba 0 0 0 0.2 )
         marginTop $ pct $ if model.device == Mobile
@@ -150,6 +152,7 @@ headerButtonMob = element ".header-butt-mob" ? do
     display flex
     justifyContent center
     alignItems center
+    fontSize $ em 1 @+@ vw 1.5
     position fixed
 
 headerButtonLabel :: Css
@@ -200,10 +203,12 @@ mainImgStylePop = element ".imgPop" ? do
     position relative
     backgroundSize cover
 
-contentStyle :: Css
-contentStyle = element ".content" ? do
+contentStyle :: Device -> Css
+contentStyle device = element ".content" ? do
     width $ pct 100
-    height $ vh 88
+    if device == PC
+        then height $ px 1280
+        else height $ vh 88
     transform $ translateY $ vh 12
     zIndex 100
     display flex
@@ -230,7 +235,7 @@ buttonMes :: Device -> Css
 buttonMes device = element ".buttMes" ? do
     fontSize $ em
         (case device of
-            PC         -> 0.7
+            PC         -> 0.5
             Mobile     -> 2
             MobileWide -> 0.5
         )
@@ -239,7 +244,7 @@ buttonMes device = element ".buttMes" ? do
     color $ rgba 255 255 255 0.67
 
 helloMes :: Device -> Css
-helloMes device = element ".hello" ? do
+helloMes _device = element ".hello" ? do
     fontSize $ em 1.4 @+@ vw 4
     marginTop $ pct 3
     textAlign center
