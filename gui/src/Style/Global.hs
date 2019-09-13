@@ -25,13 +25,13 @@ css model = Miso.String.ms . render $ do
     aboutButton
     headerButton
     headerButtonMob
-    headerButtonLabel
+    headerButtonLabel model.device
     pageWrapper
 -- LABEL/TEXT STYLES
-    helloMes model.device
+    helloMes model
     buttonMes model.device
     menuMes model.device
-    textWall
+    textWall model.device
     titleHolder
     aboutLabel
 -- LABEL/TEXT STYLES
@@ -93,7 +93,7 @@ css model = Miso.String.ms . render $ do
         border solid (px 3) "#D7D7D7"
         textAlign center
         marginTop $ pct 2
-        fontSize $ em 1 @+@ vw 1
+        fontSize $ em (if model.device == Mobile then 1.8 else 1) @+@ vw 0.7
         width $ pct $ if model.device == Mobile
             then 100
             else 40
@@ -121,7 +121,7 @@ css model = Miso.String.ms . render $ do
     aboutLabel = element ".about-label" ? do
         textAlign center
         color $ rgba 115 115 115 0.67
-        fontSize $ em 1 @+@ vw 0.7
+        fontSize $ em (if model.device == Mobile then 1.8 else 1) @+@ vw 0.7
         width $ pct 90
 
     aboutInputContainer = element ".input-cont" ? do
@@ -152,13 +152,13 @@ headerButtonMob = element ".header-butt-mob" ? do
     display flex
     justifyContent center
     alignItems center
-    fontSize $ em 1 @+@ vw 1.5
+--    fontSize $ em 1 @+@ vw 1.5
     position fixed
 
-headerButtonLabel :: Css
-headerButtonLabel = element ".header-butt-label" ? do
+headerButtonLabel :: Device -> Css
+headerButtonLabel device = element ".header-butt-label" ? do
     width $ pct 90
-    fontSize $ em 1 @+@ vw 0.7
+    fontSize $ em 1 @+@ vw (if device == Mobile then 5 else 0.7)
     textAlign center
     color (rgba 255 255 255 0.67)
 
@@ -243,11 +243,11 @@ buttonMes device = element ".buttMes" ? do
         vw 1.3
     color $ rgba 255 255 255 0.67
 
-helloMes :: Device -> Css
-helloMes _device = element ".hello" ? do
+helloMes :: Model -> Css
+helloMes model = element ".hello" ? do
     fontSize $ em 1.4 @+@ vw 4
     marginTop $ pct 3
-    textAlign center
+    textAlign $ if uriToRouteString model.uri == "" then center else start
     marginBottom $ pct 2.5
     width $ pct 100
     color "#575757"
@@ -306,11 +306,11 @@ menuMes device = element ".menuMes" ? do
     when (device `elem` [ Mobile, MobileWide ]) $ fontSize $ em 1.5 @+@ vw 2
     textAlign start
 
-textWall :: Css
-textWall = element ".twall" ? do
+textWall :: Device -> Css
+textWall device = element ".twall" ? do
     width $ pct 100
     height $ px 0
-    fontSize $ em 1.5 @+@ vw 0.7
+    fontSize $ em (if device == Mobile then 2 else 1.5) @+@ vw 0.7
 
 elemWallCont :: Css
 elemWallCont = element ".ewallc" ? do
